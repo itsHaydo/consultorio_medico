@@ -15,8 +15,9 @@
                             <th scope="col" class="px-6 py-3">Correo</th>
                             <th scope="col" class="px-6 py-3">Teléfono</th>
                             <th scope="col" class="px-6 py-3">Fecha Nacimiento</th>
-                            <th scope="col" class="px-6 py-3">Género Biológico</th>
+                            <th scope="col" class="px-6 py-3">Género</th>
                             <th scope="col" class="px-6 py-3">Edad</th>
+                            <th scope="col" class="px-6 py-3"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -30,10 +31,14 @@
                                 <td class="px-6 py-4">{{ $paciente->fecha_nacimiento }}</td>
                                 <td class="px-6 py-4">{{ $paciente->genero_biologico }}</td>
                                 <td class="px-6 py-4">{{ $paciente->age }}</td>
+                                <td class="px-6 py-4">
+                                    <a href="{{ route('paciente.edit', $paciente->id) }}" class="text-blue-600 dark:text-blue-400">Editar</a>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
-                </table><br>
+                </table>                
+                <br>
                 <button onclick="window.location.href='pacientes/agendar_cita'" type="button" class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Agendar Cita</button>
                 <button onclick="window.location.href='pacientes/registrar_pacientes'" type="button" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Registrar Nuevo Paciente</button>
             </div>
