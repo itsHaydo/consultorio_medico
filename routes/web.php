@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CitaController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\ProfileController;
@@ -26,6 +27,14 @@ Route::get('/pacientes/{id}/destroy', [PacienteController::class, 'paciente_elim
 Route::resource('paciente', PacienteController::class);
 
 Route::get('/pacientes', [PacienteController::class, 'paciente'])->middleware(['auth', 'verified'])->name('paciente');
+
+#citas
+
+Route::get('/cita/agendar',[CitaController::class, 'agendar_cita'])->middleware(['auth', 'verified'])->name('agendar_cita');
+
+Route::get('/cita/agandar', [CitaController::class, 'create'])->name('cita.agendar');
+
+Route::post('/cita', [CitaController::class, 'store'])->name('cita.store');
 
 
 Route::middleware('auth')->group(function () {

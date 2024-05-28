@@ -22,7 +22,7 @@ class PacienteController extends Controller
         ]);
     
         Paciente::create($validatedData);
-        return redirect()->route('paciente.dashboard');
+        return redirect()->route('paciente');
     }
 
 
@@ -68,6 +68,5 @@ class PacienteController extends Controller
             return view('paciente.registrar');
         }
     }
-
 
 }
