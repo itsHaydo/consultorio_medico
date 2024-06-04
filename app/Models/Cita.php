@@ -9,6 +9,18 @@ class Cita extends Model
 {
     use HasFactory;
 
+    protected $table = 'citas';
+
+    public function paciente()
+    {
+        return $this->belongsTo(Paciente::class, 'paciente_id');
+    }
+
+    public function doctor()
+    {
+        return $this->belongsTo(User::class, 'doctor_id');
+    }
+    
     protected $fillable = [
         'paciente_id',
         'doctor_id',

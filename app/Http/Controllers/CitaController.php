@@ -30,6 +30,15 @@ class CitaController extends Controller
             'observaciones' => 'nullable|string',
         ]);
 
+        $exists = Cita::where('doctor_id', $request->doctor_id)
+        ->where('fecha', $request->fecha)
+        ->where('hora', $request->hora)
+        ->exists();
+
+        if ($exists) {
+            return back()->withErrors(['La cita ya está registrada para esta fecha y hora.'])->withInput();
+        }
+
         DB::transaction(function () use ($request) {
             $cita = Cita::create([
                 'paciente_id' => $request->paciente_id,
@@ -55,6 +64,8 @@ class CitaController extends Controller
         return redirect()->route('cita.agendar')->with('success', 'Cita agendada exitosamente.');
     }
 
+
+    
     public function agendar_cita()
     {
         if (auth()->user()->tipo === 'secretaria') {
@@ -63,4 +74,18 @@ class CitaController extends Controller
             return view('cita.agendar', compact('pacientes', 'doctores'));
         }
     }
+
+    public function cita(){
+        if (auth()->user()->tipo === 'secretaria') {
+            $citas = Cita::all();
+            return view('cita.dashboard', compact('citas'));
+        }
+    }
+
+    public function edit(){
+        if (auth()->user()->tipo === 'secretaria') {
+            return view('cita.edit');
+        }
+    }
+
 }

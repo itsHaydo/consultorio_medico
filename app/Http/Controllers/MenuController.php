@@ -12,12 +12,6 @@ class MenuController extends Controller
         return view('welcome');
     }
 
-    public function pago(){
-        if (auth()->user()->tipo === 'secretaria') {
-            return view('secretaria.pago');
-        }    
-    }
-
     public function index()
     {
         if (auth()->user()->tipo === 'secretaria') {

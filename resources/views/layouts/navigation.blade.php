@@ -6,9 +6,10 @@
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                        <img src="{{ asset('images/logo.png') }}" class="size-10" alt="Descripción de la imagen">
                     </a>
                 </div>
+                
     
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
@@ -19,12 +20,24 @@
                                 {{ __('Pacientes') }}
                             </x-nav-link>
 
+                            <x-nav-link :href="route('cita')" :active="request()->routeIs('cita')">
+                                {{ __('Citas') }}
+                            </x-nav-link>
+
                             <x-nav-link :href="route('pago')" :active="request()->routeIs('pago')">
                                 {{ __('Pagos') }}
                             </x-nav-link>
                             <!-- Add more links for Secretaria -->
                         @elseif (auth()->user()->tipo === 'doctor')
                             <!-- Doctor Navigation Links -->
+                                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                                    {{ __('Dashboard Doctor') }}
+                                </x-nav-link>
+
+                                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                                    {{ __('Consultas') }}
+                                </x-nav-link>
+
                                 <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                                     {{ __('Dashboard Doctor') }}
                                 </x-nav-link>

@@ -4,6 +4,7 @@ use App\Http\Controllers\CitaController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PagoController;
 use Illuminate\Support\Facades\Route;
 
 #Menu de la parte de arriba
@@ -11,8 +12,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [MenuController::class, 'welcome'])->middleware(['auth', 'verified'])->name('welcome');
 
 Route::get('/dashboard', [MenuController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::get('/pagos', [MenuController::class, 'pago'])->middleware(['auth', 'verified'])->name('pago');
 
 #Pestaña de pacientes
 
@@ -30,12 +29,27 @@ Route::get('/pacientes', [PacienteController::class, 'paciente'])->middleware(['
 
 #citas
 
+Route::get('/citas',[CitaController::class, 'cita'])->middleware(['auth', 'verified'])->name('cita');
+
 Route::get('/cita/agendar',[CitaController::class, 'agendar_cita'])->middleware(['auth', 'verified'])->name('agendar_cita');
 
-Route::get('/cita/agandar', [CitaController::class, 'create'])->name('cita.agendar');
+Route::get('/cita/agandar', [CitaController::class, 'create'])->middleware(['auth', 'verified'])->name('cita.agendar');
 
-Route::post('/cita', [CitaController::class, 'store'])->name('cita.store');
+Route::post('/cita', [CitaController::class, 'store'])->middleware(['auth', 'verified'])->name('cita.store');
 
+Route::get('/cita/{id}/edit', [CitaController::class, 'edit'])->middleware(['auth', 'verified'])->name('cita.edit');
+
+#pagos 
+
+Route::get('/pagos', [PagoController::class, 'pago'])->middleware(['auth', 'verified'])->name('pago');
+
+Route::get('/pagos/{id}/edit', [PagoController::class, 'edit'])->name('pago.edit');
+
+Route::post('/pagos/{id}', [PagoController::class, 'update'])->name('pago.update');
+
+Route::get('/pagos/historial', [PagoController::class, 'historial'])->middleware(['auth', 'verified'])->name('historial');
+
+#------------
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

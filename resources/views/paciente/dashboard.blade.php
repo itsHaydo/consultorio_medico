@@ -32,7 +32,7 @@
                                 <td class="px-6 py-4">{{ $paciente->genero_biologico }}</td>
                                 <td class="px-6 py-4">{{ $paciente->age }}</td>
                                 <td class="px-6 py-4">
-                                    <a href="{{ route('paciente.edit', $paciente->id) }}" class="text-blue-600 dark:text-blue-400">Editar</a>
+                                    <a href="{{ route('paciente.edit', $paciente->id) }}" class="text-blue-600 hover:text-blue-900 dark:text-blue-400">Editar</a>
                                 </td>
                             </tr>
                         @endforeach

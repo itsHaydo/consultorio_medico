@@ -9,6 +9,13 @@ class Pago extends Model
 {
     use HasFactory;
 
+    protected $table = 'pagos';
+    
+    public function cita()
+    {
+        return $this->belongsTo(Cita::class, 'cita_id');
+    }
+
     protected $fillable = [
         'tratamiento_id',
         'cita_id',
