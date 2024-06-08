@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Spatie\FlareClient\View;
+
 class MenuController extends Controller
 {
     public function dashboard(){
@@ -12,6 +14,14 @@ class MenuController extends Controller
         return view('welcome');
     }
 
+    public function consultas(){
+        return view('doctor.consulta');
+    }
+
+    public function expedientes(){
+        return view('doctor.expediente');
+    }
+    
     public function index()
     {
         if (auth()->user()->tipo === 'secretaria') {

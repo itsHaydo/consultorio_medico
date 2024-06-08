@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CitaController;
+use App\Http\Controllers\ConsultaController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\ProfileController;
@@ -12,6 +13,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [MenuController::class, 'welcome'])->middleware(['auth', 'verified'])->name('welcome');
 
 Route::get('/dashboard', [MenuController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/consulta', [MenuController::class, 'consultas'])->middleware(['auth', 'verified'])->name('consulta');
+
+Route::get('/expediente', [MenuController::class, 'expedientes'])->middleware(['auth', 'verified'])->name('expediente');
+
+
 
 #Pestaña de pacientes
 
@@ -49,7 +56,15 @@ Route::post('/pagos/{id}', [PagoController::class, 'update'])->name('pago.update
 
 Route::get('/pagos/historial', [PagoController::class, 'historial'])->middleware(['auth', 'verified'])->name('historial');
 
-#------------
+#doctores
+
+Route::get('/consulta', [ConsultaController::class, 'consulta'])->middleware(['auth', 'verified'])->name('consulta');
+
+Route::get('/consulta/realizar/{id}', [ConsultaController::class, 'realizar'])->middleware(['auth', 'verified'])->name('doctor.realizarcita');
+
+
+
+#------
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

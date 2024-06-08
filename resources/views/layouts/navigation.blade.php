@@ -34,12 +34,12 @@
                                     {{ __('Dashboard Doctor') }}
                                 </x-nav-link>
 
-                                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                                <x-nav-link :href="route('consulta')" :active="request()->routeIs('dashboard')">
                                     {{ __('Consultas') }}
                                 </x-nav-link>
 
-                                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                                    {{ __('Dashboard Doctor') }}
+                                <x-nav-link :href="route('expediente')" :active="request()->routeIs('dashboard')">
+                                    {{ __('Expedientes') }}
                                 </x-nav-link>
                             <!-- Add more links for Doctor -->
                         @endif

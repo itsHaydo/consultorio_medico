@@ -64,8 +64,6 @@ class CitaController extends Controller
         return redirect()->route('cita.agendar')->with('success', 'Cita agendada exitosamente.');
     }
 
-
-    
     public function agendar_cita()
     {
         if (auth()->user()->tipo === 'secretaria') {
