@@ -50,9 +50,9 @@ Route::get('/cita/{id}/edit', [CitaController::class, 'edit'])->middleware(['aut
 
 Route::get('/pagos', [PagoController::class, 'pago'])->middleware(['auth', 'verified'])->name('pago');
 
-Route::get('/pagos/{id}/edit', [PagoController::class, 'edit'])->name('pago.edit');
+Route::get('/pagos/{id}/edit', [PagoController::class, 'edit'])->middleware(['auth', 'verified'])->name('pago.edit');
 
-Route::post('/pagos/{id}', [PagoController::class, 'update'])->name('pago.update');
+Route::post('/pagos/{id}', [PagoController::class, 'update'])->middleware(['auth', 'verified'])->name('pago.update');
 
 Route::get('/pagos/historial', [PagoController::class, 'historial'])->middleware(['auth', 'verified'])->name('historial');
 

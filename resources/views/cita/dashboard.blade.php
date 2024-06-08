@@ -17,7 +17,6 @@
                             <th scope="col" class="px-6 py-3">Hora</th>
                             <th scope="col" class="px-6 py-3">Motivo</th>
                             <th scope="col" class="px-6 py-3">Observaciones</th>
-                            <th scope="col" class="px-6 py-3">Pagada</th>
                             <th scope="col" class="px-6 py-3"></th>
                         </tr>
                     </thead>
@@ -30,7 +29,6 @@
                                 <td class="px-6 py-4">{{ $cita->hora }}</td>
                                 <td class="px-6 py-4">{{ $cita->motivo }}</td>
                                 <td class="px-6 py-4">{{ $cita->observaciones }}</td>
-                                <td class="px-6 py-4">{{ $cita->pagada ? 'Sí' : 'No' }}</td>
                                 <td class="px-6 py-4">
                                     <a href="{{ route('cita.edit', $cita->id) }}" class="text-blue-600 hover:text-blue-900 dark:text-blue-400">Editar</a>
                                 </td>

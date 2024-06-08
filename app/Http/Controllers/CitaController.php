@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 use App\Models\Cita;
@@ -75,7 +76,8 @@ class CitaController extends Controller
 
     public function cita(){
         if (auth()->user()->tipo === 'secretaria') {
-            $citas = Cita::all();
+            $today = Carbon::today();
+            $citas = Cita::where('fecha', '>=', $today)->get();
             return view('cita.dashboard', compact('citas'));
         }
     }
