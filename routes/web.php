@@ -62,7 +62,11 @@ Route::get('/consulta', [ConsultaController::class, 'consulta'])->middleware(['a
 
 Route::get('/consulta/realizar/{id}', [ConsultaController::class, 'realizar'])->middleware(['auth', 'verified'])->name('doctor.realizarcita');
 
+Route::get('/expediente/trataminetos', [ConsultaController::class, 'ver_tratamiento'])->middleware(['auth', 'verified'])->name('doctor.tratamiento');
 
+Route::post('/tratamiento', [ConsultaController::class, 'crear_tratamiento'])->middleware(['auth', 'verified'])->name('crear_tratamiento');
+
+Route::get('/cita/agendar',[ConsultaController::class, 'agendar_cita'])->middleware(['auth', 'verified'])->name('agendar_cita');
 
 #------
 

@@ -1,4 +1,4 @@
-async function showCustomSwal() {
+async function showCustomSwal(paciente_id, doctor_id) {
     const { value: formValues } = await Swal.fire({
         title: "Agregar tratamiento",
         html:
@@ -30,23 +30,40 @@ async function showCustomSwal() {
     if (formValues) {
         const { message, inicio, fin } = formValues;
         if (message && inicio && fin) {
-            Swal.fire(
-                `Tratamiento: ${message}`,
-                `Fecha incio: ${inicio}`,
-                `Fecha fin: ${fin}`
-            );
+            Swal.fire({
+                title: "Los datos son correctos?",
+                html: `<b>Tratamiento:</b> ${message} <br> <b>Fecha incio:</b> ${inicio} <br> <b>Fecha fin:</b> ${fin}`,
+                confirmButtonText: "Aceptar",
+                showCancelButton: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let data = {
+                        'paciente_id': paciente_id,
+                        'doctor_id': doctor_id,
+                        'fecha_inicio': inicio,
+                        'fecha_fin': fin,
+                        'descripcion': message
+                    };
+
+                    axios.post('/tratamiento', data, {
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        }
+                    })
+                    .then(response => {
+                        console.log('Success:', response.data);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+                }
+            });
         } else {
             Swal.fire("Porfavor rellene los campos.").then((result) => {
                 if (result.isConfirmed) {
-                    showCustomSwal();
+                    showCustomSwal(paciente_id, doctor_id);
                 }
             });
         }
     }
-}
-
-if (document.getElementById("btn-tratamiento")) {
-    document
-        .getElementById("btn-tratamiento")
-        .addEventListener("click", showCustomSwal);
 }
