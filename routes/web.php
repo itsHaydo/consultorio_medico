@@ -66,8 +66,6 @@ Route::get('/expediente/trataminetos', [ConsultaController::class, 'ver_tratamie
 
 Route::post('/tratamiento', [ConsultaController::class, 'crear_tratamiento'])->middleware(['auth', 'verified'])->name('crear_tratamiento');
 
-Route::get('/cita/agendar',[ConsultaController::class, 'agendar_cita'])->middleware(['auth', 'verified'])->name('agendar_cita');
-
 #------
 
 Route::middleware('auth')->group(function () {
