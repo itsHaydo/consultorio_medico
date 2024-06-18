@@ -23,7 +23,7 @@ class CreateTratamientosTable extends Migration
             $table->timestamps();
 
             $table->foreign('paciente_id')->references('id')->on('pacientes')->onDelete('cascade');
-            $table->foreign('doctor_id')->references('id')->on('usuarios')->onDelete('cascade');
+            $table->foreign('doctor_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
