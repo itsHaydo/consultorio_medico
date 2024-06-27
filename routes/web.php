@@ -6,6 +6,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PagoController;
+use App\Http\Controllers\ExpedienteController;
 use Illuminate\Support\Facades\Route;
 
 #Menu de la parte de arriba
@@ -17,8 +18,6 @@ Route::get('/dashboard', [MenuController::class, 'index'])->middleware(['auth', 
 Route::get('/consulta', [MenuController::class, 'consultas'])->middleware(['auth', 'verified'])->name('consulta');
 
 Route::get('/expediente', [MenuController::class, 'expedientes'])->middleware(['auth', 'verified'])->name('expediente');
-
-
 
 #Pestaña de pacientes
 
@@ -62,9 +61,13 @@ Route::get('/consulta', [ConsultaController::class, 'consulta'])->middleware(['a
 
 Route::get('/consulta/realizar/{id}', [ConsultaController::class, 'realizar'])->middleware(['auth', 'verified'])->name('doctor.realizarcita');
 
-Route::get('/expediente/trataminetos', [ConsultaController::class, 'ver_tratamiento'])->middleware(['auth', 'verified'])->name('doctor.tratamiento');
+Route::get('/expediente', [ExpedienteController::class, 'ver_clientes'])->middleware(['auth', 'verified'])->name('expediente');
 
-Route::post('/tratamiento', [ConsultaController::class, 'crear_tratamiento'])->middleware(['auth', 'verified'])->name('crear_tratamiento');
+Route::get('/expediente/servicios/{id}', [ExpedienteController::class, 'ver_tratamiento'])->middleware(['auth', 'verified'])->name('doctor.expediente');
+
+Route::get('consulta/realizar/{id}/servicio', [ConsultaController::class, 'tratamiento'])->middleware(['auth', 'verified'])->name('doctor.servicios');
+
+Route::post('consulta/realizar/{id}/servicio/tratamiento', [ExpedienteController::class, 'crear_tratamiento'])->middleware(['auth', 'verified'])->name('tratamiento');
 
 Route::get('/cita/agendar',[ConsultaController::class, 'agendar_cita'])->middleware(['auth', 'verified'])->name('agendar_cita');
 
