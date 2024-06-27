@@ -67,7 +67,7 @@ class CitaController extends Controller
 
     public function agendar_cita()
     {
-        if (auth()->user()->tipo === 'secretaria') {
+        if (auth()->user()->tipo === 'secretaria' || auth()->user()->tipo === 'doctor') {
             $pacientes = Paciente::all();
             $doctores = User::where('tipo', 'doctor')->get();
             return view('cita.agendar', compact('pacientes', 'doctores'));
