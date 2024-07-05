@@ -36,6 +36,11 @@ class CreateCitasTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
+
+        // Drop the table
         Schema::dropIfExists('citas');
+
+        Schema::enableForeignKeyConstraints();
     }
 }

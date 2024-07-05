@@ -4,26 +4,27 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateExpedientesTable extends Migration
+class CreateTratamientosTable extends Migration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+    public function up()// modificar la tabla de tratamientos con lo anotado del cuaderno
     {
-        if (!Schema::hasTable('expedientes')) {
-            Schema::create('expedientes', function (Blueprint $table) {
+        if (!Schema::hasTable('tratamientos')) {
+            Schema::create('tratamientos', function (Blueprint $table) {
                 $table->id();
-                $table->unsignedBigInteger('tratamiento_id');
                 $table->unsignedBigInteger('paciente_id');
-                $table->date('fecha');
-                $table->text('seguimiento');
+                $table->unsignedBigInteger('doctor_id');
+                $table->date('fecha_inicio')->nullable();
+                $table->date('fecha_fin')->nullable();
+                $table->text('descripcion');
                 $table->timestamps();
 
-                $table->foreign('tratamiento_id')->references('id')->on('tratamientos')->onDelete('cascade');
                 $table->foreign('paciente_id')->references('id')->on('pacientes')->onDelete('cascade');
+                $table->foreign('doctor_id')->references('id')->on('users')->onDelete('cascade');
             });
         }
     }
@@ -37,8 +38,7 @@ class CreateExpedientesTable extends Migration
     {
         Schema::disableForeignKeyConstraints();
 
-        // Drop the table
-        Schema::dropIfExists('expedientes');
+        Schema::dropIfExists('tratamientos');
 
         Schema::enableForeignKeyConstraints();
     }
