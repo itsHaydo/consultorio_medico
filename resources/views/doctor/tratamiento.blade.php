@@ -51,11 +51,11 @@
                                     {{ $item->descripcion }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    <form id="eliminar-tratamiento"
+                                    <form id="eliminar-tratamiento_{{ $item->id }}"
                                         action="{{ route('destroy.tratamiento', $item->id) }}" method="POST">
                                         @csrf
                                         @method('delete')
-                                        <button type="button" onclick="confirmar()"
+                                        <button type="button" onclick="confirmar({{ $item->id }})"
                                             class="text-red-600 hover:text-red-900 dark:text-red-400">Eliminar</button>
                                     </form>
                                 </td>
@@ -68,7 +68,7 @@
     </div>
 
     <script>
-        function confirmar() {
+        function confirmar(id) {
             Swal.fire({
                 title: 'Confirmacion!',
                 text: '¿Estas seguro de eliminar este tratamiento?',
@@ -77,7 +77,7 @@
                 showCancelButton: true,
             }).then((result) => {
                 if (result.isConfirmed) {
-                    document.getElementById('eliminar-tratamiento').submit()
+                    document.getElementById('eliminar-tratamiento_id').submit()
                     //Swal.fire("Tratamiento eliminado!", "", "success");
                 }
             });

@@ -7,6 +7,7 @@ use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\ExpedienteController;
+use App\Http\Controllers\MedicamentoController;
 use Illuminate\Support\Facades\Route;
 
 #Menu de la parte de arriba
@@ -18,6 +19,8 @@ Route::get('/dashboard', [MenuController::class, 'index'])->middleware(['auth', 
 Route::get('/consulta', [MenuController::class, 'consultas'])->middleware(['auth', 'verified'])->name('consulta');
 
 Route::get('/expediente', [MenuController::class, 'expedientes'])->middleware(['auth', 'verified'])->name('expediente');
+
+Route::get('/medicamentos', [MenuController::class, 'medicamentos'])->middleware(['auth', 'verified'])->name('medicamentos');
 
 #Pestaña de pacientes
 
@@ -72,6 +75,20 @@ Route::delete('/expediente/servicios/{id}/destroy/', [ExpedienteController::clas
 Route::get('/expediente', [ExpedienteController::class, 'ver_clientes'])->middleware(['auth', 'verified'])->name('expediente');
 
 Route::get('/expediente/servicios/{id}', [ExpedienteController::class, 'ver_tratamiento'])->middleware(['auth', 'verified'])->name('doctor.expediente');
+
+#Medicamento
+
+Route::get('/medicamentos', [MedicamentoController::class, 'ver_productos'])->middleware(['auth', 'verified'])->name('medicamentos');
+
+Route::get('/agregar_medicamento', [MedicamentoController::class, 'registrar_producto'])->middleware(['auth', 'verified'])->name('agregar_medicamento');
+
+Route::get('/editar_medicamento/{id}', [MedicamentoController::class, 'editar_producto'])->middleware(['auth', 'verified'])->name('editar.medicamento');
+
+Route::post('/editar_medicamento/{id}/edit', [MedicamentoController::class, 'modificar_producto'])->middleware(['auth', 'verified'])->name('modificar.medicamento');
+
+Route::delete('/medicamentos/{id}/destroy/', [MedicamentoController::class, 'destroy_tratamiento'])->middleware(['auth', 'verified'])->name('destroy.medicamento');
+
+Route::post('/agregar_medicamento/add', [MedicamentoController::class, 'agregar_producto'])->middleware(['auth', 'verified'])->name('agregar.medicamento');
 
 #------
 

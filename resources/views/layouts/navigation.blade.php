@@ -27,6 +27,11 @@
                             <x-nav-link :href="route('pago')" :active="request()->routeIs('pago')">
                                 {{ __('Pagos') }}
                             </x-nav-link>
+
+                            <x-nav-link :href="route('medicamentos')" :active="request()->routeIs('medicamentos')">
+                                {{ __('Medicamentos') }}
+                            </x-nav-link>
+
                             <!-- Add more links for Secretaria -->
                         @elseif (auth()->user()->tipo === 'doctor')
                             <!-- Doctor Navigation Links -->
@@ -40,6 +45,10 @@
 
                                 <x-nav-link :href="route('expediente')" :active="request()->routeIs('expediente')">
                                     {{ __('Expedientes') }}
+                                </x-nav-link>
+
+                                <x-nav-link :href="route('medicamentos')" :active="request()->routeIs('medicamentos')">
+                                    {{ __('Medicamentos') }}
                                 </x-nav-link>
                             <!-- Add more links for Doctor -->
                         @endif

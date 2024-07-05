@@ -18,8 +18,8 @@ return new class extends Migration
             $table->float('precio')->nullable(false);
             $table->date('fecha_caducidad')->nullable(false);
             $table->integer('cantidad')->nullable(false);
-            $table->enum('medida', ['ml', 'caja', 'l', 'pieza'])->nullable(false);
-            $table->enum('estado', ['agotado', 'disponible'])->default('disponible')->nullable(false); // disponible, agotado
+            $table->enum('medida', ['ml', 'caja', 'l', 'pieza'])->nullable();
+            $table->enum('estado', ['agotado', 'disponible'])->default('disponible')->nullable(); // disponible, agotado
             $table->timestamps();
         });
     }
