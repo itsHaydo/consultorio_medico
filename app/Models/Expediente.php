@@ -16,7 +16,7 @@ class Expediente extends Model
 
     public function tratamiento()
     {
-        return $this->belongsTo(Tratamiento::class, 'tratamiento_id');
+        return $this->hasMany(Tratamiento::class, 'tratamiento_id');
     }
 
     protected $fillable = [

@@ -61,13 +61,17 @@ Route::get('/consulta', [ConsultaController::class, 'consulta'])->middleware(['a
 
 Route::get('/consulta/realizar/{id}', [ConsultaController::class, 'realizar'])->middleware(['auth', 'verified'])->name('doctor.realizarcita');
 
+Route::get('consulta/realizar/{id}/servicio', [ConsultaController::class, 'tratamiento'])->middleware(['auth', 'verified'])->name('doctor.servicios');
+
+#Expedientes & Tratamientos
+
+Route::post('consulta/realizar/{id}/servicio/tratamiento', [ExpedienteController::class, 'crear_tratamiento'])->middleware(['auth', 'verified'])->name('tratamiento');
+
+Route::delete('/expediente/servicios/{id}/destroy/', [ExpedienteController::class, 'destroy_tratamiento'])->name('destroy.tratamiento');
+
 Route::get('/expediente', [ExpedienteController::class, 'ver_clientes'])->middleware(['auth', 'verified'])->name('expediente');
 
 Route::get('/expediente/servicios/{id}', [ExpedienteController::class, 'ver_tratamiento'])->middleware(['auth', 'verified'])->name('doctor.expediente');
-
-Route::get('consulta/realizar/{id}/servicio', [ConsultaController::class, 'tratamiento'])->middleware(['auth', 'verified'])->name('doctor.servicios');
-
-Route::post('consulta/realizar/{id}/servicio/tratamiento', [ExpedienteController::class, 'crear_tratamiento'])->middleware(['auth', 'verified'])->name('tratamiento');
 
 #------
 

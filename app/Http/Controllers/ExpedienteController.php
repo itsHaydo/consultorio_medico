@@ -11,14 +11,6 @@ class ExpedienteController extends Controller
 
     public function crear_tratamiento(Request $request, $id)
     {
-        // Validar los datos del formulario
-        $validatedData = $request->validate([
-            'paciente_id' => 'required|exists:pacientes,id',
-            'doctor_id' => 'required|exists:users,id',
-            'fecha_inicio' => 'required|date',
-            'fecha_fin' => 'required|date',
-            'descripcion' => 'required|string|max:255',
-        ]);
 
         $tratamiento = Tratamiento::create(
             [
@@ -40,6 +32,14 @@ class ExpedienteController extends Controller
         }
 
         return redirect()->route('doctor.servicios', $id)->with('success', 'Servicio agregado exitosamente.');
+    }
+
+    public function destroy_tratamiento($id){
+        $dato = Tratamiento::where('id', $id)->firstOrFail();
+
+        $idpac = $dato->paciente_id;
+        $dato->delete();
+        return redirect()->route('doctor.expediente', $idpac)->with('success', 'Tratamiento eliminado');
     }
 
     public function ver_tratamiento($id)
