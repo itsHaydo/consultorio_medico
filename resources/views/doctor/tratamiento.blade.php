@@ -5,6 +5,12 @@
         </h2>
     </x-slot>
 
+    <style>
+        .details {
+            display: none;
+        }
+    </style>
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -35,32 +41,32 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($consulta as $item)
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    {{ $item->doctor->name }}
-                                </th>
-                                <td class="px-6 py-4">
-                                    {{ $item->fecha_inicio }}
-                                </td>
-                                <td class="px-6 py-4">
-                                    {{ $item->fecha_fin }}
-                                </td>
-                                <td class="px-6 py-4">
-                                    {{ $item->descripcion }}
-                                </td>
-                                <td class="px-6 py-4">
-                                    <form id="eliminar-tratamiento_{{ $item->id }}"
-                                        action="{{ route('destroy.tratamiento', $item->id) }}" method="POST">
-                                        @csrf
-                                        @method('delete')
-                                        <button type="button" onclick="confirmar({{ $item->id }})"
-                                            class="text-red-600 hover:text-red-900 dark:text-red-400">Eliminar</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <th scope="row"
+                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                a
+                            </th>
+                            <td class="px-6 py-4">
+                                b
+                            </td>
+                            <td class="px-6 py-4">
+                                c
+                            </td>
+                            <td class="px-6 py-4">
+                                d
+                            </td>
+                            <td class="px-6 py-4">
+                                <button onclick="mostrarDetalles('detalles1')"
+                                    class="bg-blue-500 text-white px-4 py-2 rounded">
+                                    Mostrar Detalles
+                                </button>
+                            </td>
+                        </tr>
+                        <tr id="detalles1" class="details bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <td colspan="5" class="px-4 py-2 border-b border-gray-300">
+                                Juan es un desarrollador web que vive en Madrid.
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -82,6 +88,20 @@
                 }
             });
         }
+
+        function mostrarDetalles(id) {
+            var detalles = document.getElementById(id);
+            if (detalles.style.display === "none") {
+                detalles.style.display = "table-row";
+            } else {
+                detalles.style.display = "none";
+            }
+        }
+
+        // Inicialmente ocultar las filas de detalles
+        document.querySelectorAll('.details').forEach(function(row) {
+            row.style.display = 'none';
+        });
     </script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">

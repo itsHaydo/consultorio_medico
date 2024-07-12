@@ -66,6 +66,8 @@ Route::get('/consulta/realizar/{id}', [ConsultaController::class, 'realizar'])->
 
 Route::get('consulta/realizar/{id}/servicio', [ConsultaController::class, 'tratamiento'])->middleware(['auth', 'verified'])->name('doctor.servicios');
 
+Route::post('consulta/realizar/{id}/add', [ConsultaController::class, 'guardar_consulta'])->middleware(['auth', 'verified'])->name('guardar.consulta');
+
 #Expedientes & Tratamientos
 
 Route::post('consulta/realizar/{id}/servicio/tratamiento', [ExpedienteController::class, 'crear_tratamiento'])->middleware(['auth', 'verified'])->name('tratamiento');

@@ -39,7 +39,7 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     <a href="{{ route('doctor.expediente', $item->paciente_id) }}" class="text-blue-600 hover:text-blue-900 dark:text-blue-400">
-                                        Ver servicios
+                                        Ver
                                     </a>
                                 </td>
                             </tr>

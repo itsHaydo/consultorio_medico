@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('consulta', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('cita_id');
             $table->unsignedBigInteger('paciente_id');
             $table->unsignedBigInteger('doctor_id');
             $table->date('fecha')->nullable(false);
@@ -23,6 +24,7 @@ return new class extends Migration
             $table->string('notas', 255)->nullable();
             $table->timestamps();
 
+            $table->foreign('cita_id')->references('id')->on('citas')->onDelete('cascade');
             $table->foreign('paciente_id')->references('id')->on('pacientes')->onDelete('cascade');
             $table->foreign('doctor_id')->references('id')->on('users')->onDelete('cascade');
         });

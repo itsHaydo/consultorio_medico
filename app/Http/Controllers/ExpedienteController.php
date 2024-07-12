@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Consulta;
 use Illuminate\Http\Request;
 use App\Models\Expediente;
+use App\Models\Medicamento;
 use App\Models\Tratamiento;
+use App\Models\Pago;
+use App\Models\Cita;
 
 class ExpedienteController extends Controller
 {
@@ -12,9 +16,10 @@ class ExpedienteController extends Controller
     public function crear_tratamiento(Request $request, $id)
     {
 
-        $tratamiento = Tratamiento::create(
+        Tratamiento::create(
             [
-                'paciente_id' => $request->paciente_id,
+                'medicamento_id' => $request->producto_id,
+                'cita_id' => $request->cita_id,
                 'doctor_id' => $request->doctor_id,
                 'fecha_inicio' => $request->fecha_inicio,
                 'fecha_fin' => $request->fecha_fin,
@@ -22,19 +27,26 @@ class ExpedienteController extends Controller
             ]
         );
 
-        if(!Expediente::where('paciente_id', $request->paciente_id)->exists()){
-            Expediente::create([
-                'tratamiento_id' => $tratamiento->id,
-                'paciente_id' => $request->paciente_id,
-                'fecha' => $tratamiento->created_at,
-                'seguimiento' => 'Servicio con seguimiento',
-            ]);
-        }
+        $producto = Medicamento::where('id', $request->producto_id)->firstOrFail();
+        $citapago = Pago::where('cita_id', $request->cita_id)->firstOrFail();
+
+        $citapago->update(
+            [
+                'monto' => $citapago->monto + ($producto->precio * $request->cantidad),
+            ]
+        );
+
+        $producto->update(
+            [
+                'cantidad' => $producto->cantidad - $request->cantidad,
+            ]
+        );
 
         return redirect()->route('doctor.servicios', $id)->with('success', 'Servicio agregado exitosamente.');
     }
 
-    public function destroy_tratamiento($id){
+    public function destroy_tratamiento($id)
+    {
         $dato = Tratamiento::where('id', $id)->firstOrFail();
 
         $idpac = $dato->paciente_id;
@@ -44,8 +56,10 @@ class ExpedienteController extends Controller
 
     public function ver_tratamiento($id)
     {
-        $consulta = Tratamiento::where('paciente_id', $id)->get();
-        return view('doctor.tratamiento', compact('consulta'));
+        $consulta = Consulta::where('paciente_id', $id)->firstOrFail();
+        $tratamiento = Tratamiento::where('cita_id', $consulta->cita_id)->get();
+        $cita = Cita::where('id', $consulta->cita_id)->firstOrFail();
+        return view('doctor.tratamiento', compact('tratamiento', 'consulta', 'cita'));
     }
 
     public function ver_clientes()

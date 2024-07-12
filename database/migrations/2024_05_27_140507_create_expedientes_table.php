@@ -16,13 +16,13 @@ class CreateExpedientesTable extends Migration
         if (!Schema::hasTable('expedientes')) {
             Schema::create('expedientes', function (Blueprint $table) {
                 $table->id();
-                $table->unsignedBigInteger('tratamiento_id');
+                $table->unsignedBigInteger('consulta_id');
                 $table->unsignedBigInteger('paciente_id');
                 $table->date('fecha');
                 $table->text('seguimiento');
                 $table->timestamps();
 
-                $table->foreign('tratamiento_id')->references('id')->on('tratamientos')->onDelete('cascade');
+                $table->foreign('consulta_id')->references('id')->on('consulta')->onDelete('cascade');
                 $table->foreign('paciente_id')->references('id')->on('pacientes')->onDelete('cascade');
             });
         }

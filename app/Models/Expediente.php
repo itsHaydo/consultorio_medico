@@ -14,13 +14,13 @@ class Expediente extends Model
         return $this->belongsTo(Paciente::class, 'paciente_id');
     }
 
-    public function tratamiento()
+    public function consulta()
     {
-        return $this->hasMany(Tratamiento::class, 'tratamiento_id');
+        return $this->hasMany(Consulta::class, 'consulta_id');
     }
 
     protected $fillable = [
-        'tratamiento_id',
+        'consulta_id',
         'paciente_id',
         'fecha',
         'seguimiento',
