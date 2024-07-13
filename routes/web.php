@@ -6,12 +6,10 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PagoController;
-<<<<<<< HEAD
 use App\Http\Controllers\AdminController;
-=======
+
 use App\Http\Controllers\ExpedienteController;
 use App\Http\Controllers\MedicamentoController;
->>>>>>> d34eb56e68921d5ec0270b4a2656c014f1993a20
 use Illuminate\Support\Facades\Route;
 
 #Menu de la parte de arriba
@@ -24,7 +22,6 @@ Route::get('/consulta', [MenuController::class, 'consultas'])->middleware(['auth
 
 Route::get('/expediente', [MenuController::class, 'expedientes'])->middleware(['auth', 'verified'])->name('expediente');
 
-<<<<<<< HEAD
 
 # Parte de admin
 Route::get('/administrar/usuarios', [AdminController::class, 'administrar_usuarios'])->middleware(['auth', 'verified'])->name('administrar_usuarios');
@@ -37,9 +34,7 @@ Route::get('/administrar/administrar_doctores', [AdminController::class, 'admini
 
 Route::get('/administrar/administrar_secretarios', [AdminController::class, 'administrar_secretarios'])->middleware(['auth', 'verified'])->name('administrar_secretarios');
 
-=======
 Route::get('/medicamentos', [MenuController::class, 'medicamentos'])->middleware(['auth', 'verified'])->name('medicamentos');
->>>>>>> d34eb56e68921d5ec0270b4a2656c014f1993a20
 
 #Pestaña de pacientes
 
