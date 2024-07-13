@@ -4,40 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Cita;
-use App\Models\Tratamiento;
+use App\Models\Consulta;
+use App\Models\Expediente;
 use App\Models\Paciente;
 use App\Models\User;
+use App\Models\Medicamento;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class ConsultaController extends Controller
 {
 
-    public function crear_tratamiento(Request $request)
-    {
-        // Validar los datos del formulario
-        $validatedData = $request->validate([
-            'paciente_id' => 'required|string|max:255',
-            'doctor_id' => 'required|string|max:255',
-            'fecha_inicio' => 'required|date',
-            'fecha_fin' => 'required|date',
-            'descripcion' => 'required|string|max:255',
-        ]);
-    
-        Tratamiento::create($validatedData);
-        return  response()->json(['message' => 'Datos recibidos correctamente']);
-    }
-
     public function realizar($id)
     {
         $consulta = Cita::findOrFail($id);
         return view('doctor.realizarcita', compact('consulta'));
-    }
-
-    public function ver_tratamiento()
-    {
-        $consulta = Tratamiento::all();
-        return view('doctor.tratamiento', compact('consulta'));
     }
 
     public function agendar_cita()
@@ -49,10 +30,45 @@ class ConsultaController extends Controller
         }
     }
 
-    public function consulta(){
+    public function consulta()
+    {
         if (auth()->user()->tipo === 'doctor') {
             $consultas = Cita::where('doctor_id', auth()->user()->id)->get();
             return view('doctor.consulta', compact('consultas'));
         }
+    }
+
+    public function tratamiento($id)
+    {
+        if (auth()->user()->tipo === 'doctor') {
+            $item = Cita::findOrFail($id);
+            $medicamentos = Medicamento::all();
+            return view('doctor.servicios', compact('item', 'medicamentos'));
+        }
+    }
+
+    public function guardar_consulta(Request $request, $id)
+    {
+
+        $consulta = Consulta::create([
+            'cita_id' => $id,
+            'paciente_id' => $request->paciente_id,
+            'doctor_id' => auth()->user()->id,
+            'fecha' => $request->fecha,
+            'talla' => $request->talla,
+            'peso' => $request->peso,
+            'temperatura' => $request->temperatura,
+            'presion' => $request->presion,
+            'notas' => $request->notas,
+        ]);
+
+        Expediente::create([
+            'consulta_id' => $consulta->id,
+            'paciente_id' => $request->paciente_id,
+            'fecha' => $consulta->created_at,
+            'seguimiento' => "Consulta realizada",
+        ]);
+
+        return redirect()->route('doctor.realizarcita', $id)->with('success', 'Consulta realizada exitosamente.');
     }
 }

@@ -6,7 +6,12 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PagoController;
+<<<<<<< HEAD
 use App\Http\Controllers\AdminController;
+=======
+use App\Http\Controllers\ExpedienteController;
+use App\Http\Controllers\MedicamentoController;
+>>>>>>> d34eb56e68921d5ec0270b4a2656c014f1993a20
 use Illuminate\Support\Facades\Route;
 
 #Menu de la parte de arriba
@@ -19,6 +24,7 @@ Route::get('/consulta', [MenuController::class, 'consultas'])->middleware(['auth
 
 Route::get('/expediente', [MenuController::class, 'expedientes'])->middleware(['auth', 'verified'])->name('expediente');
 
+<<<<<<< HEAD
 
 # Parte de admin
 Route::get('/administrar/usuarios', [AdminController::class, 'administrar_usuarios'])->middleware(['auth', 'verified'])->name('administrar_usuarios');
@@ -31,6 +37,9 @@ Route::get('/administrar/administrar_doctores', [AdminController::class, 'admini
 
 Route::get('/administrar/administrar_secretarios', [AdminController::class, 'administrar_secretarios'])->middleware(['auth', 'verified'])->name('administrar_secretarios');
 
+=======
+Route::get('/medicamentos', [MenuController::class, 'medicamentos'])->middleware(['auth', 'verified'])->name('medicamentos');
+>>>>>>> d34eb56e68921d5ec0270b4a2656c014f1993a20
 
 #Pestaña de pacientes
 
@@ -74,9 +83,33 @@ Route::get('/consulta', [ConsultaController::class, 'consulta'])->middleware(['a
 
 Route::get('/consulta/realizar/{id}', [ConsultaController::class, 'realizar'])->middleware(['auth', 'verified'])->name('doctor.realizarcita');
 
-Route::get('/expediente/trataminetos', [ConsultaController::class, 'ver_tratamiento'])->middleware(['auth', 'verified'])->name('doctor.tratamiento');
+Route::get('consulta/realizar/{id}/servicio', [ConsultaController::class, 'tratamiento'])->middleware(['auth', 'verified'])->name('doctor.servicios');
 
-Route::post('/tratamiento', [ConsultaController::class, 'crear_tratamiento'])->middleware(['auth', 'verified'])->name('crear_tratamiento');
+Route::post('consulta/realizar/{id}/add', [ConsultaController::class, 'guardar_consulta'])->middleware(['auth', 'verified'])->name('guardar.consulta');
+
+#Expedientes & Tratamientos
+
+Route::post('consulta/realizar/{id}/servicio/tratamiento', [ExpedienteController::class, 'crear_tratamiento'])->middleware(['auth', 'verified'])->name('tratamiento');
+
+Route::delete('/expediente/servicios/{id}/destroy/', [ExpedienteController::class, 'destroy_tratamiento'])->name('destroy.tratamiento');
+
+Route::get('/expediente', [ExpedienteController::class, 'ver_clientes'])->middleware(['auth', 'verified'])->name('expediente');
+
+Route::get('/expediente/servicios/{id}', [ExpedienteController::class, 'ver_tratamiento'])->middleware(['auth', 'verified'])->name('doctor.expediente');
+
+#Medicamento
+
+Route::get('/medicamentos', [MedicamentoController::class, 'ver_productos'])->middleware(['auth', 'verified'])->name('medicamentos');
+
+Route::get('/agregar_medicamento', [MedicamentoController::class, 'registrar_producto'])->middleware(['auth', 'verified'])->name('agregar_medicamento');
+
+Route::get('/editar_medicamento/{id}', [MedicamentoController::class, 'editar_producto'])->middleware(['auth', 'verified'])->name('editar.medicamento');
+
+Route::post('/editar_medicamento/{id}/edit', [MedicamentoController::class, 'modificar_producto'])->middleware(['auth', 'verified'])->name('modificar.medicamento');
+
+Route::delete('/medicamentos/{id}/destroy/', [MedicamentoController::class, 'destroy_tratamiento'])->middleware(['auth', 'verified'])->name('destroy.medicamento');
+
+Route::post('/agregar_medicamento/add', [MedicamentoController::class, 'agregar_producto'])->middleware(['auth', 'verified'])->name('agregar.medicamento');
 
 #------
 

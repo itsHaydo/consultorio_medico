@@ -4,26 +4,27 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCitasTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('citas', function (Blueprint $table) {
+        Schema::create('consulta', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('cita_id');
             $table->unsignedBigInteger('paciente_id');
             $table->unsignedBigInteger('doctor_id');
             $table->date('fecha')->nullable(false);
-            $table->time('hora')->nullable(false);
-            $table->string('motivo', 255)->nullable();
-            $table->text('observaciones')->nullable();
-            $table->boolean('pagada')->default(false);
+            $table->string('talla', 255)->nullable();
+            $table->string('peso', 255)->nullable();
+            $table->string('temperatura', 255)->nullable();
+            $table->string('presion', 255)->nullable();
+            $table->string('notas', 255)->nullable();
             $table->timestamps();
 
+            $table->foreign('cita_id')->references('id')->on('citas')->onDelete('cascade');
             $table->foreign('paciente_id')->references('id')->on('pacientes')->onDelete('cascade');
             $table->foreign('doctor_id')->references('id')->on('users')->onDelete('cascade');
         });
@@ -31,16 +32,9 @@ class CreateCitasTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::disableForeignKeyConstraints();
-
-        // Drop the table
-        Schema::dropIfExists('citas');
-
-        Schema::enableForeignKeyConstraints();
+        Schema::dropIfExists('consulta');
     }
-}
+};

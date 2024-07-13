@@ -25,6 +25,10 @@ class MenuController extends Controller
     public function expedientes(){
         return view('doctor.expediente');
     }
+
+    public function medicamentos(){
+        return view('producto.dashboard');
+    }
     
     public function index()
     {

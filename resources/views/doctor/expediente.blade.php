@@ -26,48 +26,24 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                John Doe
-                            </th>
-                            <td class="px-6 py-4">
-                                15/06/2024
-                            </td>
-                            <td class="px-6 py-4">
-                                Seguiemiento
-                            </td>
-                            <td class="px-6 py-4">
-                                <a href="{{ route('doctor.tratamiento') }}" class="text-blue-600 hover:text-blue-900 dark:text-blue-400">Ver tratamientos</a>
-                            </td>
-                        </tr>
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                Jane Smith
-                            </th>
-                            <td class="px-6 py-4">
-                                20/06/2024
-                            </td>
-                            <td class="px-6 py-4">
-                                Seguiemiento
-                            </td>
-                            <td class="px-6 py-4">
-                                <a href="{{ route('doctor.tratamiento') }}" class="text-blue-600 hover:text-blue-900 dark:text-blue-400">Ver tratamientos</a>
-                            </td>
-                        </tr>
-                        <tr class="bg-white dark:bg-gray-800">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                Emily Johnson
-                            </th>
-                            <td class="px-6 py-4">
-                                18/07/2024
-                            </td>
-                            <td class="px-6 py-4">
-                                Seguiemiento
-                            </td>
-                            <td class="px-6 py-4">
-                                <a href="{{ route('doctor.tratamiento') }}" class="text-blue-600 hover:text-blue-900 dark:text-blue-400">Ver tratamientos</a>
-                            </td>
-                        </tr>
+                        @foreach ($expediente as $item)
+                            <tr class="bg-white dark:bg-gray-800">
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{ $item->paciente->nombre }} {{ $item->paciente->apellido_p }} {{ $item->paciente->apellido_m }}
+                                </th>
+                                <td class="px-6 py-4">
+                                    {{ $item->fecha}}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ $item->seguimiento }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    <a href="{{ route('doctor.expediente', $item->paciente_id) }}" class="text-blue-600 hover:text-blue-900 dark:text-blue-400">
+                                        Ver
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

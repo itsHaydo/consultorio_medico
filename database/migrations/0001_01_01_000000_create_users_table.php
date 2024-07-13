@@ -17,7 +17,11 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+<<<<<<< HEAD
             $table->enum('tipo', ['secretaria', 'doctor', 'admin'])->nullable();
+=======
+            $table->enum('tipo', ['admin', 'secretaria', 'doctor'])->nullable();
+>>>>>>> d34eb56e68921d5ec0270b4a2656c014f1993a20
             $table->string('especialidad')->nullable();
             $table->rememberToken();
             $table->timestamps();
@@ -44,8 +48,12 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::disableForeignKeyConstraints();
+        
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
+
+        Schema::enableForeignKeyConstraints();
     }
 };

@@ -9,9 +9,14 @@ class Tratamiento extends Model
 {
     protected $table = 'tratamientos';
     
-    public function paciente()
+    public function medicamento()
     {
-        return $this->belongsTo(Paciente::class, 'paciente_id');
+        return $this->belongsTo(Medicamento::class, 'medicamento_id');
+    }
+
+    public function cita()
+    {
+        return $this->belongsTo(Cita::class, 'cita_id');
     }
 
     public function doctor()
@@ -20,7 +25,8 @@ class Tratamiento extends Model
     }
 
     protected $fillable = [
-        'paciente_id',
+        'medicamento_id',
+        'cita_id',
         'doctor_id',
         'fecha_inicio',
         'fecha_fin',

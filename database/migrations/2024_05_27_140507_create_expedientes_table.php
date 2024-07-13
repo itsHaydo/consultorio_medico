@@ -13,17 +13,19 @@ class CreateExpedientesTable extends Migration
      */
     public function up()
     {
-        Schema::create('expedientes', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('tratamiento_id');
-            $table->unsignedBigInteger('paciente_id');
-            $table->date('fecha');
-            $table->text('seguimiento');
-            $table->timestamps();
+        if (!Schema::hasTable('expedientes')) {
+            Schema::create('expedientes', function (Blueprint $table) {
+                $table->id();
+                $table->unsignedBigInteger('consulta_id');
+                $table->unsignedBigInteger('paciente_id');
+                $table->date('fecha');
+                $table->text('seguimiento');
+                $table->timestamps();
 
-            $table->foreign('tratamiento_id')->references('id')->on('tratamientos')->onDelete('cascade');
-            $table->foreign('paciente_id')->references('id')->on('pacientes')->onDelete('cascade');
-        });
+                $table->foreign('consulta_id')->references('id')->on('consulta')->onDelete('cascade');
+                $table->foreign('paciente_id')->references('id')->on('pacientes')->onDelete('cascade');
+            });
+        }
     }
 
     /**
@@ -33,6 +35,11 @@ class CreateExpedientesTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
+
+        // Drop the table
         Schema::dropIfExists('expedientes');
+
+        Schema::enableForeignKeyConstraints();
     }
 }
