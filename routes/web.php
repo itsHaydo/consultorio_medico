@@ -6,6 +6,8 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PagoController;
+use App\Http\Controllers\AdminController;
+
 use App\Http\Controllers\ExpedienteController;
 use App\Http\Controllers\MedicamentoController;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +21,18 @@ Route::get('/dashboard', [MenuController::class, 'index'])->middleware(['auth', 
 Route::get('/consulta', [MenuController::class, 'consultas'])->middleware(['auth', 'verified'])->name('consulta');
 
 Route::get('/expediente', [MenuController::class, 'expedientes'])->middleware(['auth', 'verified'])->name('expediente');
+
+
+# Parte de admin
+Route::get('/administrar/usuarios', [AdminController::class, 'administrar_usuarios'])->middleware(['auth', 'verified'])->name('administrar_usuarios');
+
+Route::put('/admin/usuarios/{id}/update-role', [AdminController::class, 'updateUserRole'])->middleware(['auth', 'verified'])->name('admin.updateUserRole');
+
+Route::get('/administrar/editar_usuarios', [AdminController::class, 'editar_usuarios'])->middleware(['auth', 'verified'])->name('editar_usuarios');
+
+Route::get('/administrar/administrar_doctores', [AdminController::class, 'administrar_doctores'])->middleware(['auth', 'verified'])->name('administrar_doctores');
+
+Route::get('/administrar/administrar_secretarios', [AdminController::class, 'administrar_secretarios'])->middleware(['auth', 'verified'])->name('administrar_secretarios');
 
 Route::get('/medicamentos', [MenuController::class, 'medicamentos'])->middleware(['auth', 'verified'])->name('medicamentos');
 

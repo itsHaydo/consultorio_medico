@@ -11,7 +11,11 @@ class MenuController extends Controller
     }
 
     public function welcome(){
-        return view('welcome');
+        if (auth()->user()->tipo === 'secretaria' || auth()->user()->tipo === 'doctor') {
+            return view('welcome');
+        }else{
+            return view('admin.dashboard');
+        }
     }
 
     public function consultas(){
@@ -32,6 +36,8 @@ class MenuController extends Controller
             return view('secretaria.dashboard');
         } elseif (auth()->user()->tipo === 'doctor') {
             return view('doctor.dashboard');
+        }elseif (auth()->user()->tipo === 'admin'){
+            return view('admin.dashboard');
         } else{
             return view('dashboard');
         }

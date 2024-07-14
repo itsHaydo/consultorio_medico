@@ -51,6 +51,12 @@
                                     {{ __('Medicamentos') }}
                                 </x-nav-link>
                             <!-- Add more links for Doctor -->
+                            @elseif (auth()->user()->tipo === 'admin')
+                            <!-- Doctor Navigation Links -->
+                                <x-nav-link :href="route('administrar_usuarios')" :active="request()->routeIs('administrar_usuarios')">
+                                    {{ __('Usuarios') }}
+                                </x-nav-link>
+
                         @endif
                     @endauth
                 </div>
