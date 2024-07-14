@@ -62,12 +62,14 @@ class ConsultaController extends Controller
             'notas' => $request->notas,
         ]);
 
-        Expediente::create([
-            'consulta_id' => $consulta->id,
-            'paciente_id' => $request->paciente_id,
-            'fecha' => $consulta->created_at,
-            'seguimiento' => "Consulta realizada",
-        ]);
+        if(!Expediente::where('paciente_id', $request->paciente_id)->exists()){
+            Expediente::create([
+                'consulta_id' => $consulta->id,
+                'paciente_id' => $request->paciente_id,
+                'fecha' => $consulta->created_at,
+                'seguimiento' => "Consulta realizada",
+            ]);
+        }
 
         return redirect()->route('doctor.realizarcita', $id)->with('success', 'Consulta realizada exitosamente.');
     }

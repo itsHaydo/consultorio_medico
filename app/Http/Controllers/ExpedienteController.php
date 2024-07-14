@@ -48,7 +48,6 @@ class ExpedienteController extends Controller
     public function destroy_tratamiento($id)
     {
         $dato = Tratamiento::where('id', $id)->firstOrFail();
-
         $idpac = $dato->paciente_id;
         $dato->delete();
         return redirect()->route('doctor.expediente', $idpac)->with('success', 'Tratamiento eliminado');
@@ -56,10 +55,8 @@ class ExpedienteController extends Controller
 
     public function ver_tratamiento($id)
     {
-        $consulta = Consulta::where('paciente_id', $id)->firstOrFail();
-        $tratamiento = Tratamiento::where('cita_id', $consulta->cita_id)->get();
-        $cita = Cita::where('id', $consulta->cita_id)->firstOrFail();
-        return view('doctor.tratamiento', compact('tratamiento', 'consulta', 'cita'));
+        $consulta = Consulta::where('paciente_id', $id)->get();
+        return view('doctor.tratamiento', compact('consulta'));
     }
 
     public function ver_clientes()
