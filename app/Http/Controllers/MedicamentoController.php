@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Medicamento;
+use App\Models\Tratamiento;
 use Illuminate\Http\Request;
 
 class MedicamentoController extends Controller
@@ -55,6 +56,13 @@ class MedicamentoController extends Controller
     }
 
     public function destroy_tratamiento($id){
+
+        $tratamiento = Tratamiento::where('medicamento_id', $id)->get();
+
+        foreach($tratamiento as $item){
+            $item->delete();
+        }
+
         Medicamento::where('id', $id)->delete();
         return redirect()->route('medicamentos')->with('success', 'Medicamento eliminado');
     }

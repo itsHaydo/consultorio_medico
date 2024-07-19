@@ -76,6 +76,8 @@ Route::get('/pagos/historial', [PagoController::class, 'historial'])->middleware
 
 Route::get('/consulta', [ConsultaController::class, 'consulta'])->middleware(['auth', 'verified'])->name('consulta');
 
+Route::post('consulta/{id}/edit', [ConsultaController::class, 'editar_consulta'])->middleware(['auth', 'verified'])->name('edit.consulta');
+
 Route::get('/consulta/realizar/{id}', [ConsultaController::class, 'realizar'])->middleware(['auth', 'verified'])->name('doctor.realizarcita');
 
 Route::get('consulta/realizar/{id}/servicio', [ConsultaController::class, 'tratamiento'])->middleware(['auth', 'verified'])->name('doctor.servicios');

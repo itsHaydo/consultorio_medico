@@ -84,33 +84,42 @@
                             <tr id="detalles_{{ $itemCita->id }}"
                                 class="details bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                 <td colspan="3" class="px-4 py-2 border-b border-gray-300">
+                                    <center>
+                                        <h1 class="size-11">Tratamientos</h1>
+                                    </center>
+                                    <br>
                                     @foreach ($tratamiento as $itemTratamiento)
                                         <h1>Fechas de consumo {{ $itemTratamiento->fecha_inicio }} a
                                             {{ $itemTratamiento->fecha_fin }}</h1>
                                         <h1>Instrucciones de consumo: {{ $itemTratamiento->descripcion }}</h1>
                                         <h1>Nombre del medicamento: {{ $itemTratamiento->medicamento->nombre }} </h1>
+                                        <br>
                                     @endforeach
-                                </td>
-                                <td colspan="6" class="px-4 py-2 border-b border-gray-300">
-                                    <table class="w-full">
-                                        <tr>
-                                            <td>Talla</td>
-                                            <td>Peso</td>
-                                            <td>Temperatura</td>
-                                            <td>Presion</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{ $consulta[$i]->talla }} cm</td>
-                                            <td>{{ $consulta[$i]->peso }} kg</td>
-                                            <td>{{ $consulta[$i]->temperatura }}°</td>
-                                            <td>{{ $consulta[$i]->presion }}</td>
-                                        </tr>
-                                    </table>
-                                    <br>
-                                    <h1>Notas de consulta: </h1>
-                                    <textarea disabled class="w-full">{{ $consulta[$i]->notas }}</textarea>
-                                </td>
-                            </tr>
+                        </td>
+                        <td colspan="6" class="px-4 py-2 border-b border-gray-300">
+                            <center>
+                                <h1 class="size-11">Detalles de la consulta</h1>
+                            </center>
+                            <br>
+                            <table class="w-full">
+                                <tr>
+                                    <td>Talla</td>
+                                    <td>Peso</td>
+                                    <td>Temperatura</td>
+                                    <td>Presion</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ $consulta[$i]->talla }} cm</td>
+                                    <td>{{ $consulta[$i]->peso }} kg</td>
+                                    <td>{{ $consulta[$i]->temperatura }}°</td>
+                                    <td>{{ $consulta[$i]->presion }}</td>
+                                </tr>
+                            </table>
+                            <br>
+                            <h1>Notas de consulta: </h1>
+                            <textarea disabled class="text-gray-900 w-full">{{ $consulta[$i]->notas }}</textarea>
+                        </td>
+                        </tr>
                         @endforeach
                         <?php
     }

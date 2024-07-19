@@ -13,6 +13,8 @@
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -36,7 +38,6 @@
             </main>
             <!--@include('layouts.footer');-->
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="/js/modals.js"></script>
     </body>
 </html>

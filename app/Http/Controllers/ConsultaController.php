@@ -73,4 +73,23 @@ class ConsultaController extends Controller
 
         return redirect()->route('doctor.realizarcita', $id)->with('success', 'Consulta realizada exitosamente.');
     }
+
+    public function editar_consulta(Request $request, $id)
+    {
+
+        $consulta = Consulta::findOrFail($id);
+        $cita = Cita::findOrFail($consulta->cita_id);
+
+        $consulta->update([
+            'fecha' => $request->fecha,
+        ]);
+
+        $cita->update([
+            'fecha' => $request->fecha,
+            'hora' => $request->hora,
+        ]);
+
+        return redirect()->route('consulta')->with('success', 'Consulta actualizada exitosamente.');
+    }
+
 }
