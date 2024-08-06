@@ -59,33 +59,55 @@
     </div>
 
     <script>
+        function validarFecha() {
+            const date = Swal.getPopup().querySelector('#fecha').value;
+            const time = Swal.getPopup().querySelector('#hora');
+            if (!date || !time) {
+                Swal.showValidationMessage(`Please enter both date and time`);
+            }
+
+            const times = time.value;
+            const [hours, minutes] = times.split(':');
+
+            // Force minutes to be '00' or '30'
+            if (minutes !== '00' && minutes !== '30') {
+                time.value = `${hours}:${minutes < 30 ? '00' : '30'}`;
+            }
+
+            document.getElementById('modalForm').submit();
+        }
 
         function editDate(id) {
-            var link = "/consulta/"+id+"/edit";
-            
+            var link = "/consulta/" + id + "/edit";
+
             Swal.fire({
-            title: 'Enter Date and Time',
-            html: `
-                <form id="modalForm" action='`+ link +`' method='POST' >
+                title: 'Ingrese la nueva fecha y hora de la cita',
+                html: `
+                <form id="modalForm" action='` + link + `' method='POST' >
                     @csrf
-                    <label for="dateInput">Date:</label>
+                    <label for="dateInput">Fecha:</label>
                     <input type="date" id="fecha" name="fecha"><br><br>
 
-                    <label for="timeInput">Time:</label>
-                    <input type="time" id="hora" name="hora">
-                    <input type="submit" value="Actualizar">
+                    <label for="timeInput">Hora:</label>
+                    <input type="time" id="hora" name="hora"><br><br>
+                    <input type="button" onclick="validarFecha()" value="Actualizar">
                 </form>
             `,
-            showCancelButton: true,
-            preConfirm: () => {
-                const date = Swal.getPopup().querySelector('#fecha').value;
-                const time = Swal.getPopup().querySelector('#hora').value;
-                if (!date || !time) {
-                    Swal.showValidationMessage(`Please enter both date and time`);
+                showConfirmButton: false,
+                showCancelButton: true,
+                preConfirm: () => {
+                    const date = Swal.getPopup().querySelector('#fecha').value;
+                    const time = Swal.getPopup().querySelector('#hora');
+                    if (!date || !time) {
+                        Swal.showValidationMessage(`Please enter both date and time`);
+                    }
+                    
+                    return {
+                        date: date,
+                        time: time
+                    }
                 }
-                return { date: date, time: time }
-            }
-        });
+            });
 
         }
     </script>

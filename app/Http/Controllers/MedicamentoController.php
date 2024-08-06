@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class MedicamentoController extends Controller
 {
     public function ver_productos(){
-        $productos = Medicamento::all();
+        $productos = Medicamento::where('estado', 'disponible')->get();
         return view('producto.dashboard', compact('productos'));
     }
 
@@ -57,13 +57,7 @@ class MedicamentoController extends Controller
 
     public function destroy_tratamiento($id){
 
-        $tratamiento = Tratamiento::where('medicamento_id', $id)->get();
-
-        foreach($tratamiento as $item){
-            $item->delete();
-        }
-
-        Medicamento::where('id', $id)->delete();
+        Medicamento::where('id', $id)->update(['estado' => 'agotado']);
         return redirect()->route('medicamentos')->with('success', 'Medicamento eliminado');
     }
 
