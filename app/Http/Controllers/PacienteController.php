@@ -56,7 +56,7 @@ class PacienteController extends Controller
 
     #mostrar la lista de los pacientes solo si esta logueado como tipo secretaria
     public function paciente(){
-        if (auth()->user()->tipo === 'secretaria') {
+        if (auth()->user()->tipo === 'secretaria' || auth()->user()->tipo === 'doctor') {
             $pacientes = Paciente::all();
             return view('paciente.dashboard', ['pacientes' => $pacientes]);
         }
@@ -64,7 +64,7 @@ class PacienteController extends Controller
 
     #mostrar el form de registrar nuevos pacientes
     public function registrar_paciente(){
-        if (auth()->user()->tipo === 'secretaria') {
+        if (auth()->user()->tipo === 'secretaria' || auth()->user()->tipo === 'doctor') {
             return view('paciente.registrar');
         }
     }

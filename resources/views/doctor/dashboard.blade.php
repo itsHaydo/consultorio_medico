@@ -73,24 +73,7 @@
                 </form>
             </div>
 
-            <!-- Quick Access Buttons -->
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">Accesos Rápidos</h3>
-                <div class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <a href="{{ route('cita') }}"
-                        class="block p-4 bg-indigo-500 text-white rounded-lg text-center shadow-md hover:bg-indigo-600">
-                        Programar Nueva Cita
-                    </a>
-                    <a href="{{ route('expediente') }}"
-                        class="block p-4 bg-green-500 text-white rounded-lg text-center shadow-md hover:bg-green-600">
-                        Ver Expedientes
-                    </a>
-                    <a href="{{ route('pago') }}"
-                        class="block p-4 bg-red-500 text-white rounded-lg text-center shadow-md hover:bg-red-600">
-                        Consultar Pagos Pendientes
-                    </a>
-                </div>
-            </div>
+            
 
             <div id="calendar" style="color: aliceblue"></div>
 
