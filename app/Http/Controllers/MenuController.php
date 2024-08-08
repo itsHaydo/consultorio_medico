@@ -14,8 +14,14 @@ class MenuController extends Controller
     }
 
     public function welcome(){
-        if (auth()->user()->tipo === 'secretaria' || auth()->user()->tipo === 'doctor') {
-            return view('welcome');
+        if (auth()->user()->tipo === 'secretaria' ) {
+            return view('secretaria.dashboard');
+        }else if(auth()->user()->tipo === 'doctor') {
+            $consultas = Cita::where('doctor_id', auth()->user()->id)->get();
+            $pacientes = Paciente::all();
+            $doctores = User::where('id', auth()->user()->id)->get();
+
+            return view('doctor.dashboard', compact('consultas', 'pacientes', 'doctores'));
         }else{
             return view('admin.dashboard');
         }
