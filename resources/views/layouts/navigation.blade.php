@@ -43,6 +43,10 @@
                                     {{ __('Consultas') }}
                                 </x-nav-link>
 
+                                <x-nav-link :href="route('consulta')" :active="request()->routeIs('paciente')">
+                                    {{ __('Pacientes') }}
+                                </x-nav-link>
+
                                 <x-nav-link :href="route('expediente')" :active="request()->routeIs('expediente')">
                                     {{ __('Expedientes') }}
                                 </x-nav-link>
@@ -55,6 +59,10 @@
                             <!-- Doctor Navigation Links -->
                                 <x-nav-link :href="route('administrar_usuarios')" :active="request()->routeIs('administrar_usuarios')">
                                     {{ __('Usuarios') }}
+                                </x-nav-link>
+
+                                <x-nav-link :href="route('registrar_usuarios')" :active="request()->routeIs('registrar_usuarios')">
+                                    {{ __('Registrar usuarios') }}
                                 </x-nav-link>
 
                         @endif

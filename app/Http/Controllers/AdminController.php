@@ -45,4 +45,36 @@ class AdminController extends Controller
             return view('admin.editar', compact('users'));
         }
     }
+
+    public function registrar_usuarios()
+    {
+        if (auth()->user()->tipo === 'admin') {
+            return view('admin.registrar_usuarios');
+        }
+    }
+
+    public function registro_usuario(Request $request)
+{
+    // Imprimir los datos del request para depuración
+    $validatedData = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users',
+        'password' => 'required|string|min:8|confirmed',
+        'tipo' => 'required|string',
+        'especialidad' => 'nullable|string',
+    ]);
+
+    // Imprimir los datos validados para depuración
+    $user = User::create([
+        'name' => $validatedData['name'],
+        'email' => $validatedData['email'],
+        'password' => bcrypt($validatedData['password']),
+        'tipo' => $validatedData['tipo'],
+        'especialidad' => $request->especialidad,
+    ]);
+
+    return redirect()->route('registrar_usuarios')->with('success', 'Usuario registrado con éxito');
+}
+
+
 }

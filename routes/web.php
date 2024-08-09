@@ -10,6 +10,7 @@ use App\Http\Controllers\AdminController;
 
 use App\Http\Controllers\ExpedienteController;
 use App\Http\Controllers\MedicamentoController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 #Menu de la parte de arriba
@@ -35,6 +36,10 @@ Route::get('/administrar/administrar_doctores', [AdminController::class, 'admini
 Route::get('/administrar/administrar_secretarios', [AdminController::class, 'administrar_secretarios'])->middleware(['auth', 'verified'])->name('administrar_secretarios');
 
 Route::get('/medicamentos', [MenuController::class, 'medicamentos'])->middleware(['auth', 'verified'])->name('medicamentos');
+
+Route::get('/registrar_usuarios', [AdminController::class, 'registrar_usuarios'])->middleware(['auth', 'verified'])->name('registrar_usuarios');
+
+Route::post('/registrar', [AdminController::class, 'registro_usuario'])->middleware(['auth', 'verified'])->name('registro_usuario');
 
 #Pestaña de pacientes
 
