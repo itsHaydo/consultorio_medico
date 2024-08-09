@@ -99,6 +99,9 @@ Route::get('/expediente', [ExpedienteController::class, 'ver_clientes'])->middle
 
 Route::get('/expediente/servicios/{id}', [ExpedienteController::class, 'ver_tratamiento'])->middleware(['auth', 'verified'])->name('doctor.expediente');
 
+Route::get('/expediente/pdf/{id}', [ExpedienteController::class, 'crear_pdf'])->middleware(['auth', 'verified'])->name('doctor.pdf');
+
+
 #Medicamento
 
 Route::get('/medicamentos', [MedicamentoController::class, 'ver_productos'])->middleware(['auth', 'verified'])->name('medicamentos');
