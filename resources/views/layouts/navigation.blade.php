@@ -43,7 +43,7 @@
                                     {{ __('Consultas') }}
                                 </x-nav-link>
 
-                                <x-nav-link :href="route('consulta')" :active="request()->routeIs('paciente')">
+                                <x-nav-link :href="route('paciente')" :active="request()->routeIs('paciente')">
                                     {{ __('Pacientes') }}
                                 </x-nav-link>
 
@@ -65,6 +65,24 @@
                                     {{ __('Registrar usuarios') }}
                                 </x-nav-link>
 
+                                <x-nav-link :href="route('paciente')" :active="request()->routeIs('paciente')">
+                                    {{ __('Administrar Pacientes') }}
+                                </x-nav-link>
+                                
+                                <x-nav-link :href="route('cita')" :active="request()->routeIs('cita')">
+                                    {{ __('Administrar Citas') }}
+                                </x-nav-link>
+
+                            @elseif (auth()->user()->tipo === 'paciente')
+                                <!-- Doctor Navigation Links -->
+                                    <x-nav-link :href="route('consultas_paciente')" :active="request()->routeIs('consultas_paciente')">
+                                        {{ __('Mis Consultas') }}
+                                    </x-nav-link>
+    
+                                    <x-nav-link :href="route('registrar_usuarios')" :active="request()->routeIs('registrar_usuarios')">
+                                        {{ __('Mi Historial Medico') }}
+                                    </x-nav-link>
+                                    
                         @endif
                     @endauth
                 </div>

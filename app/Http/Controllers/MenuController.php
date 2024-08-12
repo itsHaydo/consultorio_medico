@@ -22,6 +22,8 @@ class MenuController extends Controller
             $doctores = User::where('id', auth()->user()->id)->get();
 
             return view('doctor.dashboard', compact('consultas', 'pacientes', 'doctores'));
+        }else if (auth()->user()->tipo === 'paciente'){
+            return view('paciente.dashboard2');
         }else{
             return view('admin.dashboard');
         }

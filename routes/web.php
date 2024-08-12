@@ -55,6 +55,8 @@ Route::resource('paciente', PacienteController::class);
 
 Route::get('/pacientes', [PacienteController::class, 'paciente'])->middleware(['auth', 'verified'])->name('paciente');
 
+Route::get('/consultas_paciente', [ConsultaController::class, 'consultas_paciente'])->middleware(['auth', 'verified'])->name('consultas_paciente');
+
 #citas
 
 Route::get('/citas',[CitaController::class, 'cita'])->middleware(['auth', 'verified'])->name('cita');

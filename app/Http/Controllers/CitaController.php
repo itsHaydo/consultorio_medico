@@ -67,7 +67,7 @@ class CitaController extends Controller
 
     public function agendar_cita()
     {
-        if (auth()->user()->tipo === 'secretaria' || auth()->user()->tipo === 'doctor') {
+        if (auth()->user()->tipo === 'secretaria' || auth()->user()->tipo === 'doctor' || auth()->user()->tipo === 'admin') {
             $pacientes = Paciente::all();
             $doctores = User::where('tipo', 'doctor')->get();
             return view('cita.agendar', compact('pacientes', 'doctores'));
@@ -75,7 +75,7 @@ class CitaController extends Controller
     }
 
     public function cita(){
-        if (auth()->user()->tipo === 'secretaria') {
+        if (auth()->user()->tipo === 'secretaria' || auth()->user()->tipo === 'admin') {
             $today = Carbon::today();
             $citas = Cita::where('fecha', '>=', $today)->get();
             return view('cita.dashboard', compact('citas'));
@@ -83,7 +83,7 @@ class CitaController extends Controller
     }
 
     public function edit(){
-        if (auth()->user()->tipo === 'secretaria') {
+        if (auth()->user()->tipo === 'secretaria' || auth()->user()->tipo === 'admin') {
             return view('cita.edit');
         }
     }
