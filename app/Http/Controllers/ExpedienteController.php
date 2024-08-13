@@ -115,10 +115,9 @@ class ExpedienteController extends Controller
 
             }
 
-
         }
 
-        $cuerpo = $cuerpo."</>";
+        $cuerpo = $cuerpo."</div>";
         $pdf->loadHTML($cuerpo);
         return $pdf->download('Expediente de '. $nombrePac .'.pdf');
     }
