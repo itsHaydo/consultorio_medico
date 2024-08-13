@@ -92,4 +92,32 @@ class ConsultaController extends Controller
         return redirect()->route('consulta')->with('success', 'Consulta actualizada exitosamente.');
     }
 
+    public function consultas_paciente()
+{
+    // Obtén el usuario autenticado
+    $user = auth()->user();
+
+    // Encuentra al paciente relacionado con este usuario
+    $paciente = Paciente::where('user_id', $user->id)->first();
+
+    // Verifica si se encontró un paciente asociado
+    if ($paciente) {
+        $pacienteId = $paciente->id;
+
+        // Obtén las consultas y expedientes del paciente usando el ID del paciente
+        $consultas = Consulta::where('paciente_id', $pacienteId)->get();
+        $expedientes = Expediente::where('paciente_id', $pacienteId)->get();
+
+        return view('consultas_paciente', [
+            'consultas' => $consultas,
+            'expedientes' => $expedientes,
+        ]);
+    } else {
+        // Maneja el caso donde no se encuentra un paciente relacionado
+        return redirect()->back()->with('error', 'Paciente no encontrado');
+    }
+}
+
+
+
 }

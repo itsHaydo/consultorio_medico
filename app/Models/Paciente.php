@@ -26,4 +26,10 @@ class Paciente extends Model
         'fecha_nacimiento', 
         'genero_biologico'
     ];
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'paciente_id');
+    }
+
 }
