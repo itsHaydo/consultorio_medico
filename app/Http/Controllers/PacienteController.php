@@ -26,31 +26,7 @@ class PacienteController extends Controller
     ]);
 
     // Crear el paciente
-    $paciente = Paciente::create($validatedData);
-
-    // Verifica que el paciente se haya creado y tenga un ID
-    if (!$paciente || !$paciente->id) {
-        return back()->withErrors(['error' => 'No se pudo crear el paciente.']);
-    }
-
-    // Generar una contraseña aleatoria
-    $password = Str::random(8);
-
-    // Crear el usuario asociado al paciente
-    $user = User::create([
-        'name' => $validatedData['nombre'] . ' ' . $validatedData['apellido_p'] . ' ' . $validatedData['apellido_m'],
-        'email' => $validatedData['correo'],
-        'password' => bcrypt($password),
-        'tipo' => 'paciente',
-        'especialidad' => null, // Asigna null o deja este campo vacío si no aplica para pacientes
-    ]);
-
-    // Después de crear el usuario, actualiza el campo paciente_id
-    $user->paciente_id = $paciente->id;
-    $user->save();
-
-    // Enviar la notificación con la contraseña al correo del paciente
-    $user->notify(new SendPasswordNotification($password));
+    Paciente::create($validatedData);
 
     return redirect()->route('paciente');
 }

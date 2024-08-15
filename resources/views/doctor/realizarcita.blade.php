@@ -15,27 +15,27 @@
             @endif
             <div class="bg-white dark:bg-gray-800 shadow-md sm:rounded-lg p-6">
                 <div class="p-6 rounded-lg shadow-lg">
-                    <form action="{{ route('guardar.consulta', $consulta->id) }}" method="POST">
+                    <form action="{{ route('guardar.consulta', $cita->id) }}" method="POST">
                         @csrf
                         <div class="grid grid-cols-2 gap-4 mb-4">
                             <div>
                                 <label for="nombre" class="block text-sm font-medium text-white">Nombre</label>
                                 <label type="text"
                                     class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                                    {{ $consulta->paciente->nombre }} {{ $consulta->paciente->apellido_p }}
-                                    {{ $consulta->paciente->apellido_m }}
+                                    {{ $cita->paciente->nombre }} {{ $cita->paciente->apellido_p }}
+                                    {{ $cita->paciente->apellido_m }}
                                 </label>
                                 <input type="hidden" id="paciente_id" name="paciente_id"
-                                    value="{{ $consulta->paciente_id }}">
+                                    value="{{ $cita->paciente_id }}">
                             </div>
                             <div>
                                 <label for="fecha-hora" class="block text-sm font-medium text-white">Fecha y
                                     hora</label>
                                 <label type="text" id="fecha-hora"
                                     class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                                    {{ $consulta->fecha }} | {{ $consulta->hora }}
+                                    {{ $cita->fecha }} | {{ $cita->hora }}
                                 </label>
-                                <input type="hidden" id="fecha" name="fecha" value="{{ $consulta->fecha }}">
+                                <input type="hidden" id="fecha" name="fecha" value="{{ $cita->fecha }}">
                             </div>
                         </div>
                         <div class="grid grid-cols-2 gap-4 mb-4">
@@ -45,13 +45,13 @@
                                 </label>
                                 <label type="text" id="cuenta-pagada"
                                     class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                                    {{ $consulta->pagada ? 'Si' : 'No' }}
+                                    {{ $cita->pagada ? 'Si' : 'No' }}
                                 </label>
                             </div>
-                            <div>
+                            <div style="display: {{ $consulta == null ? 'block' : 'none' }}">
                                 <label for="tratamiento"
                                     class="block text-sm font-medium text-white">Tratamiento</label>
-                                <a href="{{ route('doctor.servicios', $consulta->id) }}" id="btn-tratamiento"
+                                <a href="{{ route('doctor.servicios', $cita->id) }}" id="btn-tratamiento"
                                     class="text-center block w-full mt-1 py-2.5 font-medium text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                                     Agregar tratamiento
                                 </a>
@@ -59,63 +59,72 @@
                         </div>
                         <div class="mb-4">
                             <label for="motivos" class="block text-sm font-medium text-white">Motivos</label>
-                            <input type="text" value="{{ $consulta->motivo }}"
+                            <input type="text" value="{{ $cita->motivo }}"
                                 class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                         </div>
 
                         <!-- Consulta -->
 
-                        <div class="mb-4">
-                            <label for="talla" class="block text-sm font-medium text-white">Talla:</label>
-                            <input type="number" id="talla" name="talla"
-                                class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        <div style="display: {{ $consulta == null ? 'block' : 'none' }}">
+
+                            <div class="mb-4">
+                                <label for="talla" class="block text-sm font-medium text-white">Talla:</label>
+                                <input type="number" id="talla" name="talla"
+                                    class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="peso" class="block text-sm font-medium text-white">Peso:</label>
+                                <input type="number" id="peso" name="peso"
+                                    class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="temperatura" class="block text-sm font-medium text-white">Temperatura en
+                                    grados
+                                    C°:</label>
+                                <input type="number" id="temperatura" name="temperatura"
+                                    class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="presion" class="block text-sm font-medium text-white">Presion:</label>
+                                <input type="number" id="presion" name="presion"
+                                    class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+
+                            <div>
+                                <label for="notas" class="block text-sm font-medium text-white">Notas de cita</label>
+                                <textarea id="notas" name="notas" rows="6"
+                                    class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">{{ $cita->observaciones ? $cita->observaciones : '' }}</textarea>
+                            </div>
+
+                            <br>
+
+                            <input type="submit" value="Terminar cita"
+                                class="w-full px-1 py-2.5 font-medium text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                         </div>
-
-                        <div class="mb-4">
-                            <label for="peso" class="block text-sm font-medium text-white">Peso:</label>
-                            <input type="number" id="peso" name="peso"
-                                class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="temperatura" class="block text-sm font-medium text-white">Temperatura en grados
-                                C°:</label>
-                            <input type="number" id="temperatura" name="temperatura"
-                                class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="presion" class="block text-sm font-medium text-white">Presion:</label>
-                            <input type="number" id="presion" name="presion"
-                                class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                        </div>
-
-                        <div>
-                            <label for="notas" class="block text-sm font-medium text-white">Notas de cita</label>
-                            <textarea id="notas" name="notas" rows="6"
-                                class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">{{ $consulta->observaciones ? $consulta->observaciones : '' }}</textarea>
-                        </div>
-                    
-                    <br>
-                    @if ($consulta->pagada)
-                        <div>
-                        @else
-                            <div class="grid grid-cols-2 gap-4 mb-4">
-                    @endif
-
-                    <input
-                        type="submit"
-                        value="Terminar cita"
-                        class="w-full px-1 py-2.5 font-medium text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                    </form>    
-
-                    @if (!$consulta->pagada)
-                        <button
-                            class="w-full px-1 py-2.5 font-medium text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                            Pagar cita
-                        </button>
-                    @endif
                 </div>
+                @if ($cita->pagada == 0)
+                    <button
+                        type="button"
+                        onclick="location.href='{{ route('pago.edit', $cita->id) }}'"
+                        class="w-full px-1 py-2.5 font-medium text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                        Pagar cita
+                    </button>
+                @endif
+                </form>
+
+
+                <div style="display: {{ $consulta != null ? 'block' : 'none' }}">
+                    <br>
+                    <div>
+                        <label class="block text-sm font-medium text-white">La consulta ya ha sido
+                            realizada.</label>
+                    </div>
+                </div>
+
+
             </div>
         </div>
     </div>

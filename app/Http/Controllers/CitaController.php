@@ -62,7 +62,12 @@ class CitaController extends Controller
             ]);
         });
 
-        return redirect()->route('cita.agendar')->with('success', 'Cita agendada exitosamente.');
+        if(auth()->user()->tipo === 'doctor'){
+            return redirect()->route('dashboard')->with('success', 'Cita agendada exitosamente.');
+        }else{
+            return redirect()->route('cita.agendar')->with('success', 'Cita agendada exitosamente.');
+        }
+        
     }
 
     public function agendar_cita()

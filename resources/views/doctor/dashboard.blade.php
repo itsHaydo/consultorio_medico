@@ -7,6 +7,14 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+
+            @if (session('success'))
+                <div class="bg-green-600 border border-green-400 text-green-100 px-4 py-3 rounded relative mb-4"
+                    role="alert">
+                    <span class="block sm:inline">{{ session('success') }}</span>
+                </div>
+            @endif
+
             <!-- Welcome Message -->
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
@@ -41,10 +49,10 @@
                         </select>
                     </div>
 
-                    <div class="relative z-0 w-full mb-5 group">
+                    <div style="display: none;" class="relative z-0 w-full mb-5 group">
                         <label for="fecha" class="block text-gray-800 text-sm font-bold mb-2">Fecha:</label>
                         <p id="value-fecha"></p>
-                        <input type="date" name="fecha" id="fecha"
+                        <input type="text" name="fecha" id="fecha"
                             class="form-input mt-1 w-full bg-gray-300 text-black">
                     </div>
 
@@ -67,13 +75,10 @@
                         <textarea name="observaciones" id="observaciones" class="form-textarea mt-1 w-full bg-gray-300 text-black"></textarea>
                     </div>
 
-                    <button type="submit"
-                        class="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded">Agendar
-                        Cita</button>
                 </form>
             </div>
 
-            
+
 
             <div id="calendar" style="color: aliceblue"></div>
 
@@ -104,34 +109,49 @@
                         //console.log('day', date.toISOString());
                         //console.log('coords', jsEvent.pageX, jsEvent.pageY);
 
-                        const fechas = document.getElementById('fecha');
-                        const dates = date.toISOString().split('T')[0].split('-');
-                        fechas.value = `${dates[2]}-${dates[1]}-${dates[0]}`; // Formato DD-MM-YYYY
-                        document.getElementById('value-fecha').innerText = `${dates[2]}-${dates[1]}-${dates[0]}`;
-                        console.log(`${dates[2]}-${dates[1]}-${dates[0]}`);
+                        const dates = date.toISOString().split('T')[0];
 
                         Swal.fire({
                             title: 'Agendar Cita',
                             html: document.getElementById('citaForm').innerHTML,
                             showCancelButton: true,
-                            showConfirmButton: false,
+                            showConfirmButton: true,
                             cancelButtonText: 'Cancelar',
-                            focusConfirm: false,    
+                            focusConfirm: false,
                             preConfirm: () => {
-                                // Aquí puedes validar el formulario antes de enviarlo
+                                // Validar los campos
                                 const paciente_id = Swal.getPopup().querySelector(
                                     '#paciente_id').value;
                                 const doctor_id = Swal.getPopup().querySelector('#doctor_id')
                                     .value;
-                                const fecha = fechas.value;
-                                const hora = Swal.getPopup().querySelector('#hora').value;
+                                let hora = Swal.getPopup().querySelector('#hora').value;
+                                const motivo = Swal.getPopup().querySelector('#motivo').value;
+                                const observaciones = Swal.getPopup().querySelector(
+                                    '#observaciones').value;
 
-                                // TODO
-                                //  Hacer que tome la fecha seleccionada
+                                let [hours, minutes] = hora.split(':');
 
-                                if (!paciente_id || !doctor_id || !fecha || !hora) {
+                                // Convertir a números para trabajar con ellos
+                                minutes = parseInt(minutes);
+
+                                // Ajustar automáticamente los minutos a '00' o '30'
+                                if (minutes < 15) {
+                                    minutes = '00';
+                                } else if (minutes < 45) {
+                                    minutes = '30';
+                                } else {
+                                    minutes = '00';
+                                    hours = (parseInt(hours) + 1).toString().padStart(2,
+                                    '0'); // Avanzar una hora si los minutos son 45+
+                                }
+
+                                // Reconstruir la hora ajustada
+                                hora = `${hours}:${minutes}`;
+
+                                if (!paciente_id || !doctor_id || !hora || !motivo) {
                                     Swal.showValidationMessage(
-                                        'Por favor, completa todos los campos obligatorios');
+                                        'Por favor, completa todos los campos obligatorios.'
+                                        );
                                     return false;
                                 }
 
@@ -143,15 +163,16 @@
                                     @csrf
                                     <input type="hidden" name="paciente_id" value="${paciente_id}">
                                     <input type="hidden" name="doctor_id" value="${doctor_id}">
-                                    <input type="hidden" name="fecha" value="${fecha}">
+                                    <input type="hidden" name="fecha" value="${dates}">
                                     <input type="hidden" name="hora" value="${hora}">
-                                    <input type="hidden" name="motivo" value="${Swal.getPopup().querySelector('#motivo').value}">
-                                    <input type="hidden" name="observaciones" value="${Swal.getPopup().querySelector('#observaciones').value}">
+                                    <input type="hidden" name="motivo" value="${motivo}">
+                                    <input type="hidden" name="observaciones" value="${observaciones}">
                                 `;
                                 document.body.appendChild(form);
                                 form.submit();
                             }
                         });
+
 
                     },
                     /*eventClick: function(info) { // Relizar la cita

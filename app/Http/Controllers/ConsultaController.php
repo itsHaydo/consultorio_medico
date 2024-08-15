@@ -9,16 +9,24 @@ use App\Models\Expediente;
 use App\Models\Paciente;
 use App\Models\User;
 use App\Models\Medicamento;
+use ErrorException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use Mockery\Generator\StringManipulation\Pass\Pass;
 
 class ConsultaController extends Controller
 {
 
     public function realizar($id)
     {
-        $consulta = Cita::findOrFail($id);
-        return view('doctor.realizarcita', compact('consulta'));
+        $cita = Cita::findOrFail($id);
+        $consulta = null;
+        try{
+            $consulta = Consulta::where('cita_id', $cita->id)->get()[0];
+        }catch(ErrorException $e){
+            echo "";
+        }
+        return view('doctor.realizarcita', compact('cita', 'consulta'));
     }
 
     public function agendar_cita()

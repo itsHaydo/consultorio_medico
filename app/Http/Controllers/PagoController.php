@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cita;
 use Illuminate\Http\Request;
 use App\Models\Pago;
 
@@ -27,11 +28,20 @@ class PagoController extends Controller
         $pago->fecha_pago = now();
         $pago->save();
 
-        return redirect()->route('pago')->with('success', 'Pago actualizado correctamente');
+        $cita = Cita::where('id', $pago->cita_id);
+        $cita->update([
+            'pagada' => 1
+        ]);
+
+        if(auth()->user()->tipo == 'doctor'){
+            return redirect()->route('doctor.realizarcita', $pago->cita_id)->with('success', 'Pago actualizado correctamente');
+        }else{
+            return redirect()->route('pago')->with('success', 'Pago actualizado correctamente');
+        }
     }
 
     public function pago(){
-        if (auth()->user()->tipo === 'secretaria') {
+        if (auth()->user()->tipo === 'secretaria' || auth()->user()->tipo === 'doctor') {
             $pagos = Pago::where('estado', 'pendiente')->get();
             return view('pago.dashboard', ['pagos' => $pagos]);
         }
