@@ -54,6 +54,10 @@
                                 <x-nav-link :href="route('medicamentos')" :active="request()->routeIs('medicamentos')">
                                     {{ __('Medicamentos') }}
                                 </x-nav-link>
+
+                                <x-nav-link :href="route('pago')" :active="request()->routeIs('pago')">
+                                    {{ __('Pagos') }}
+                                </x-nav-link>
                             <!-- Add more links for Doctor -->
                             @elseif (auth()->user()->tipo === 'admin')
                             <!-- Doctor Navigation Links -->

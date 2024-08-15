@@ -26,7 +26,7 @@
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ $paciente->nombre }} {{ $paciente->apellido_p }} {{ $paciente->apellido_m }}
                                 </th>
-                                <td class="px-6 py-4">{{ $paciente->correo }}</td>
+                                <td class="px-6 py-4">{{ $paciente->email }}</td>
                                 <td class="px-6 py-4">{{ $paciente->telefono }}</td>
                                 <td class="px-6 py-4">{{ $paciente->fecha_nacimiento }}</td>
                                 <td class="px-6 py-4">{{ $paciente->genero_biologico }}</td>

@@ -65,7 +65,6 @@ Route::get('/paciente/{id}/send-medical-record', [ConsultaController::class, 'se
 
 Route::get('/citas_paciente', [ConsultaController::class, 'citas_paciente'])->middleware(['auth', 'verified'])->name('citas_paciente');
 
-Route::get('/cita/{id}', [ConsultaController::class, 'cita_detalles'])->middleware(['auth', 'verified'])->name('cita_detalles');
 
 
 #citas
