@@ -89,16 +89,16 @@
 
                     <label for="timeInput">Hora:</label>
                     <input type="time" id="hora" name="hora"><br><br>
-                    <input type="button" style="cursor: pointer;" class="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded" onclick="validarFecha()" value="Actualizar">
+                    <input type="button" onclick="validarFecha()" value="Actualizar">
                 </form>
             `,
                 showConfirmButton: false,
-                showCancelButton: false,
+                showCancelButton: true,
                 preConfirm: () => {
                     const date = Swal.getPopup().querySelector('#fecha').value;
                     const time = Swal.getPopup().querySelector('#hora');
                     if (!date || !time) {
-                        Swal.showValidationMessage(`Ingrese los datos correctamente.`);
+                        Swal.showValidationMessage(`Please enter both date and time`);
                     }
                     
                     return {
