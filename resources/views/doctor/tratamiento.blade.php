@@ -4,11 +4,7 @@
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ __('Expedientes') }}
             </h2>
-            <h1 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                <a href="{{ route('doctor.pdf', $idpac ) }}">
-                    <i title="Descargar expediente" style="cursor: pointer; font-size: 25px" class="hover:text-white fas fa-file-download"></i>
-                </a>
-            </h1>
+            
         </div>
     </x-slot>
 

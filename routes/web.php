@@ -57,6 +57,17 @@ Route::get('/pacientes', [PacienteController::class, 'paciente'])->middleware(['
 
 Route::get('/consultas_paciente', [ConsultaController::class, 'consultas_paciente'])->middleware(['auth', 'verified'])->name('consultas_paciente');
 
+Route::get('/consultas_paciente/detalles/{id}', [ConsultaController::class, 'paciente_consultas_detalles'])->middleware(['auth', 'verified'])->name('paciente_consultas_detalles');
+
+Route::get('/consultas_paciente/detalles/pdf/{id}', [ConsultaController::class, 'generatePdf'])->middleware(['auth', 'verified'])->name('paciente_consultas_detalles_pdf');
+
+Route::get('/paciente/{id}/send-medical-record', [ConsultaController::class, 'sendMedicalRecord'])->middleware(['auth', 'verified'])->name('send_medical_record');
+
+Route::get('/citas_paciente', [ConsultaController::class, 'citas_paciente'])->middleware(['auth', 'verified'])->name('citas_paciente');
+
+Route::get('/cita/{id}', [ConsultaController::class, 'cita_detalles'])->middleware(['auth', 'verified'])->name('cita_detalles');
+
+
 #citas
 
 Route::get('/citas',[CitaController::class, 'cita'])->middleware(['auth', 'verified'])->name('cita');

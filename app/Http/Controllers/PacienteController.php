@@ -45,6 +45,8 @@ class PacienteController extends Controller
         'especialidad' => null, // Asigna null o deja este campo vacío si no aplica para pacientes
     ]);
 
+    
+
     // Después de crear el usuario, actualiza el campo paciente_id
     $user->paciente_id = $paciente->id;
     $user->save();

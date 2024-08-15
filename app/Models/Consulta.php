@@ -25,6 +25,7 @@ class Consulta extends Model
         return $this->belongsTo(Cita::class, 'cita_id');
     }
     
+    
     protected $fillable = [
         'cita_id',
         'paciente_id',

@@ -9,7 +9,12 @@ use App\Models\Expediente;
 use App\Models\Paciente;
 use App\Models\User;
 use App\Models\Medicamento;
+use App\Models\Tratamiento;
 use App\Notifications\ConsultaRealizadaNotification;
+use Barryvdh\DomPDF\Facade\Pdf; // Add this at the top
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ExpedientePacienteMail;
+use ExpedientePacienteMail as GlobalExpedientePacienteMail;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
@@ -33,6 +38,21 @@ class ConsultaController extends Controller
             return view('cita.agendar', compact('pacientes', 'doctores'));
         }
     }
+
+    public function citas_paciente()
+    {
+        // Get the currently authenticated user
+        $user = auth()->user();
+
+        // Retrieve only pending consultations for the authenticated user
+        $citas = Cita::where('paciente_id', $user->paciente_id)
+                         ->where('realizado', 0) // Assuming 0 means not completed
+                         ->orderBy('fecha', 'desc') // Order by date descending
+                         ->get();
+
+        return view('paciente.citas_paciente', ['citas' => $citas]);
+    }
+
 
     public function consulta()
 {
@@ -117,6 +137,7 @@ class ConsultaController extends Controller
         return redirect()->route('consulta')->with('success', 'Consulta actualizada exitosamente.');
     }
 
+
     public function consultas_paciente()
 {
     // Obtén el usuario autenticado
@@ -133,7 +154,6 @@ class ConsultaController extends Controller
         // Obtén las consultas y expedientes del paciente usando el ID del paciente
         $consultas = Consulta::where('paciente_id', $pacienteId)->get();
         $expedientes = Expediente::where('paciente_id', $pacienteId)->get();
-
         return view('paciente.consultas_paciente', [
             'consultas' => $consultas,
             'expedientes' => $expedientes,
@@ -144,6 +164,82 @@ class ConsultaController extends Controller
     }
 }
 
+
+public function paciente_consultas_detalles($id)
+{
+    // Obtén la consulta específica
+    $consulta = Consulta::find($id);
+
+    if (!$consulta) {
+        // Handle the case where the consultation is not found
+        return redirect()->route('some_route_name')->with('error', 'Consulta no encontrada');
+    }
+
+    // Obtén los tratamientos asociados a esta consulta
+    $tratamientos = Tratamiento::where('cita_id', $consulta->id)->get();
+
+    // Pasar la consulta y los tratamientos a la vista
+    return view('paciente.paciente_consultas_detalles', [
+        'consulta' => $consulta,
+        'tratamientos' => $tratamientos,
+    ]);
+}
+
+public function generatePdf($id)
+{
+    $consulta = Consulta::find($id);
+
+    if (!$consulta) {
+        return redirect()->route('some_route_name')->with('error', 'Consulta no encontrada');
+    }
+
+    $tratamientos = Tratamiento::where('cita_id', $consulta->id)->get();
+
+    $pdf = Pdf::loadView('paciente.paciente_consultas_pdf', [
+        'consulta' => $consulta,
+        'tratamientos' => $tratamientos,
+    ]);
+
+    return $pdf->download('consulta_' . $id . '.pdf');
+}
+
+
+public function sendMedicalRecord($pacienteId)
+{
+    $consultas = Consulta::where('paciente_id', $pacienteId)->get();
+
+    if ($consultas->isEmpty()) {
+        return redirect()->back()->with('error', 'No se encontraron consultas para este paciente.');
+    }
+
+    $pdfs = [];
+
+    foreach ($consultas as $consulta) {
+        $tratamientos = Tratamiento::where('cita_id', $consulta->id)->get();
+        $pdf = Pdf::loadView('paciente.paciente_consultas_pdf', [
+            'consulta' => $consulta,
+            'tratamientos' => $tratamientos,
+        ]);
+        $pdfPath = storage_path("app/public/consulta_{$consulta->id}.pdf");
+        $pdf->save($pdfPath);
+        $pdfs[] = $pdfPath;
+    }
+
+    $paciente = Paciente::find($pacienteId);
+
+    if (!$paciente) {
+        return redirect()->back()->with('error', 'Paciente no encontrado.');
+    }
+
+    Mail::to($paciente->email)->send(new ExpedientePacienteMail($pdfs));
+
+    // Optionally delete PDFs after sending
+    foreach ($pdfs as $pdfPath) {
+        unlink($pdfPath);
+    }
+
+    return redirect()->back()->with('success', 'Expediente médico enviado al correo del paciente.');
+}
 
 
 }
