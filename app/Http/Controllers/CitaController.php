@@ -8,6 +8,7 @@ use App\Models\Cita;
 use App\Models\Paciente;
 use App\Models\User;
 use App\Models\Pago;
+use App\Notifications\CitaRegistradaNotification;
 use Illuminate\Support\Facades\DB;
 
 class CitaController extends Controller
@@ -21,49 +22,53 @@ class CitaController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'paciente_id' => 'required|exists:pacientes,id',
-            'doctor_id' => 'required|exists:users,id',
-            'fecha' => 'required|date',
-            'hora' => ['required', 'regex:/^(?:[01]\d|2[0-3]):(?:00|30)$/'],
-            'motivo' => 'nullable|string|max:255',
-            'observaciones' => 'nullable|string',
+{
+    $request->validate([
+        'paciente_id' => 'required|exists:pacientes,id',
+        'doctor_id' => 'required|exists:users,id',
+        'fecha' => 'required|date',
+        'hora' => ['required', 'regex:/^(?:[01]\d|2[0-3]):(?:00|30)$/'],
+        'motivo' => 'nullable|string|max:255',
+        'observaciones' => 'nullable|string',
+    ]);
+
+    $exists = Cita::where('doctor_id', $request->doctor_id)
+                  ->where('fecha', $request->fecha)
+                  ->where('hora', $request->hora)
+                  ->exists();
+
+    if ($exists) {
+        return back()->withErrors(['La cita ya está registrada para esta fecha y hora.'])->withInput();
+    }
+
+    DB::transaction(function () use ($request) {
+        $cita = Cita::create([
+            'paciente_id' => $request->paciente_id,
+            'doctor_id' => $request->doctor_id,
+            'fecha' => $request->fecha,
+            'hora' => $request->hora,
+            'motivo' => $request->motivo,
+            'observaciones' => $request->observaciones,
+            'pagada' => false,
         ]);
 
-        $exists = Cita::where('doctor_id', $request->doctor_id)
-        ->where('fecha', $request->fecha)
-        ->where('hora', $request->hora)
-        ->exists();
+        Pago::create([
+            'cita_id' => $cita->id,
+            'tipo_pago' => 'cita',
+            'monto' => 80, // Actualizar con el monto real
+            'fecha_pago' => null,
+            'metodo_pago' => null,
+            'usuario_id' => auth()->id(),
+            'estado' => 'pendiente',
+        ]);
 
-        if ($exists) {
-            return back()->withErrors(['La cita ya está registrada para esta fecha y hora.'])->withInput();
-        }
+        // Enviar la notificación al paciente
+        $paciente = $cita->paciente;
+        $paciente->notify(new CitaRegistradaNotification($cita));
+    });
 
-        DB::transaction(function () use ($request) {
-            $cita = Cita::create([
-                'paciente_id' => $request->paciente_id,
-                'doctor_id' => $request->doctor_id,
-                'fecha' => $request->fecha,
-                'hora' => $request->hora,
-                'motivo' => $request->motivo,
-                'observaciones' => $request->observaciones,
-                'pagada' => false,
-            ]);
-
-            Pago::create([
-                'cita_id' => $cita->id,
-                'tipo_pago' => 'cita',
-                'monto' => 80, // Actualizar con el monto real
-                'fecha_pago' => null,
-                'metodo_pago' => null,
-                'usuario_id' => auth()->id(), // Asumiendo que el usuario autenticado es quien crea la cita
-                'estado' => 'pendiente',
-            ]);
-        });
-
-        return redirect()->route('cita.agendar')->with('success', 'Cita agendada exitosamente.');
-    }
+    return redirect()->route('cita.agendar')->with('success', 'Cita agendada exitosamente.');
+}
 
     public function agendar_cita()
     {

@@ -19,7 +19,7 @@ class CreatePacientesTable extends Migration
             $table->string('apellido_p', 255);
             $table->string('apellido_m', 255);
             $table->integer('age');
-            $table->string('correo', 255);
+            $table->string('email', 255);
             $table->string('telefono', 255);
             $table->date('fecha_nacimiento');
             $table->enum('genero_biologico', ['Masculino', 'Femenino']);

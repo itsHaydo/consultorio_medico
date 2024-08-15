@@ -42,7 +42,7 @@ class ExpedienteController extends Controller
             ]
         );
 
-        return redirect()->route('doctor.servicios', $id)->with('success', 'Servicio agregado exitosamente.');
+        return redirect()->route('doctor.realizarcita', $id)->with('success', 'Servicio agregado exitosamente.');
     }
 
     public function destroy_tratamiento($id)

@@ -21,7 +21,7 @@ class Paciente extends Model
         'apellido_p', 
         'apellido_m', 
         'age', 
-        'correo', 
+        'email', 
         'telefono', 
         'fecha_nacimiento', 
         'genero_biologico'

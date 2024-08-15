@@ -19,7 +19,7 @@ class PacienteController extends Controller
         'apellido_p' => 'required|string|max:255',
         'apellido_m' => 'required|string|max:255',
         'age' => 'required|integer',
-        'correo' => 'required|email|unique:pacientes|max:255',
+        'email' => 'required|email|unique:pacientes|max:255',
         'telefono' => 'nullable|string|max:255',
         'fecha_nacimiento' => 'nullable|date',
         'genero_biologico' => 'required|in:Masculino,Femenino',
@@ -39,7 +39,7 @@ class PacienteController extends Controller
     // Crear el usuario asociado al paciente
     $user = User::create([
         'name' => $validatedData['nombre'] . ' ' . $validatedData['apellido_p'] . ' ' . $validatedData['apellido_m'],
-        'email' => $validatedData['correo'],
+        'email' => $validatedData['email'],
         'password' => bcrypt($password),
         'tipo' => 'paciente',
         'especialidad' => null, // Asigna null o deja este campo vacío si no aplica para pacientes
@@ -48,7 +48,6 @@ class PacienteController extends Controller
     // Después de crear el usuario, actualiza el campo paciente_id
     $user->paciente_id = $paciente->id;
     $user->save();
-
     // Enviar la notificación con la contraseña al correo del paciente
     $user->notify(new SendPasswordNotification($password));
 
